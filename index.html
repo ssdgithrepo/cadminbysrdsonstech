@@ -30,6 +30,12 @@
         .portal-switcher-btn { cursor: pointer; transition: all 0.3s ease; border: 2px solid #dee2e6; background-color: #f8f9fa; font-size: 0.9rem; }
         .portal-switcher-btn:hover { border-color: #f59e0b; background-color: #fffbeb; transform: translateY(-2px); }
         .portal-switcher-btn.active-portal { border-color: #f59e0b; background-color: #ffc107 !important; color: #000 !important; font-weight: bold; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printableQuotationArea, #printableQuotationArea * { visibility: visible; }
+            #printableQuotationArea { position: absolute; left: 0; top: 0; width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -69,11 +75,10 @@
 </div>
 
 <!-- ==========================================
-     WELCOME LANDING PAGE VIEW (Aesthetic Live-Stream Flow)
+     WELCOME LANDING PAGE VIEW
 =========================================== -->
 <div id="welcomeView" class="view-section active-view">
     
-    <!-- Aesthetic Hero Carousel matching services & captions -->
     <div id="heroCarousel" class="carousel slide carousel-fade shadow-sm" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
@@ -82,7 +87,6 @@
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
         </div>
         <div class="carousel-inner">
-            <!-- Slide 1: Solar EPC Management -->
             <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1509391365360-e835f3774e6f?auto=format&fit=crop&w=1920&q=80')">
                 <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
                     <h1 class="display-4 fw-bold text-warning">Solar Stack Enterprise EPC</h1>
@@ -90,7 +94,6 @@
                     <button class="btn btn-warning btn-lg fw-bold text-dark mt-3 hover-scale" onclick="switchView('authView'); switchPortalMode('vendorSignup');">Get Started as Vendor</button>
                 </div>
             </div>
-            <!-- Slide 2: Website & Mobile Development -->
             <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1920&q=80')">
                 <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
                     <h1 class="display-4 fw-bold text-warning">Website & Mobile Development</h1>
@@ -98,7 +101,6 @@
                     <a href="#servicesSection" class="btn btn-outline-light btn-lg mt-3 hover-scale">Explore All Services</a>
                 </div>
             </div>
-            <!-- Slide 3: Digital Marketing & Media -->
             <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1432821596592-e2c18b78144f?auto=format&fit=crop&w=1920&q=80')">
                 <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
                     <h1 class="display-4 fw-bold text-warning">Digital Marketing & Media Collateral</h1>
@@ -106,7 +108,6 @@
                     <a href="#contactSection" class="btn btn-outline-light btn-lg mt-3 hover-scale">Connect With Us</a>
                 </div>
             </div>
-            <!-- Slide 4: Trading & Procurement -->
             <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1920&q=80')">
                 <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
                     <h1 class="display-4 fw-bold text-warning">Solar Trading & Procurement</h1>
@@ -189,7 +190,6 @@
                 <div class="mb-3"><strong>Email ID:</strong><br><span class="text-muted">srdsons.info@gmail.com</span></div>
                 <div class="mb-3"><strong>Working Hours:</strong><br><span class="text-muted">Monday To Saturday: 09:00 AM to 06:00 PM</span></div>
                 
-                <!-- Native WhatsApp App Intent Link -->
                 <a href="whatsapp://send?phone=919403618841&text=Hello%20SRD%20Sons%20Tech,%20I%20want%20to%20inquire%20about%20Solar%20Stack%20and%20your%20services." class="btn btn-success fw-bold mt-2 hover-scale">
                     💬 Chat Directly on WhatsApp
                 </a>
@@ -246,7 +246,7 @@
 </div>
 
 <!-- ==========================================
-     AUTH VIEW
+     AUTH VIEW (Credentials fetched via Google Sheets only)
 =========================================== -->
 <div id="authView" class="view-section container">
     <div class="row justify-content-center mt-4">
@@ -280,11 +280,10 @@
                 <div class="card-body p-4">
                     <div id="paneAdminLogin" class="auth-pane">
                         <div class="alert alert-primary py-2 small shadow-sm mb-3">
-                            <strong>Master Admin Portal:</strong> Full system access, vendor approvals, logo management, and global CRUD operations.<br>
-                            <em>Credentials for testing: admin@srdtech.com / admin123</em>
+                            <strong>Master Admin Portal:</strong> Authenticating directly against Google Sheets records. Enter your admin credentials assigned in sheet.
                         </div>
                         <form onsubmit="handleLogin(event, 'admin')">
-                            <div class="mb-3"><label class="form-label fw-bold small">Admin Email</label><input type="email" id="adminEmail" class="form-control" placeholder="admin@srdtech.com" required></div>
+                            <div class="mb-3"><label class="form-label fw-bold small">Admin Email</label><input type="email" id="adminEmail" class="form-control" placeholder="Enter admin email" required></div>
                             <div class="mb-3"><label class="form-label fw-bold small">Password</label><input type="password" id="adminPass" class="form-control" placeholder="Enter admin password" required></div>
                             <button type="submit" class="btn btn-primary w-100 fw-bold hover-scale py-2">Sign In as Master Admin</button>
                         </form>
@@ -292,11 +291,10 @@
 
                     <div id="paneVendorLogin" class="auth-pane d-none">
                         <div class="alert alert-warning py-2 small shadow-sm mb-3 text-dark">
-                            <strong>Vendor Portal Login:</strong> Access your EPC pipeline and quotation tools. <em>Note: Newly signed up vendors can only login after Master Admin approval.</em><br>
-                            <em>Credentials for testing: vendor@demo.com / vendor123</em>
+                            <strong>Vendor Portal Login:</strong> Access your EPC pipeline and quotation tools from Google Sheets database.
                         </div>
                         <form onsubmit="handleLogin(event, 'vendor')">
-                            <div class="mb-3"><label class="form-label fw-bold small">Vendor Email</label><input type="email" id="vendorEmail" class="form-control" placeholder="vendor@demo.com" required></div>
+                            <div class="mb-3"><label class="form-label fw-bold small">Vendor Email</label><input type="email" id="vendorEmail" class="form-control" placeholder="Enter vendor email" required></div>
                             <div class="mb-3"><label class="form-label fw-bold small">Password</label><input type="password" id="vendorPass" class="form-control" placeholder="Enter vendor password" required></div>
                             <button type="submit" class="btn btn-warning w-100 fw-bold text-dark hover-scale py-2">Sign In to Vendor Workspace</button>
                         </form>
@@ -304,7 +302,7 @@
 
                     <div id="paneVendorSignup" class="auth-pane d-none">
                         <div class="alert alert-success py-2 small shadow-sm mb-3">
-                            <strong>Individual Vendor Registration:</strong> Fill out the form below to register your EPC enterprise. Your account will be submitted for Master Admin approval.
+                            <strong>Individual Vendor Registration:</strong> Registers your profile into the Google Sheets database for Master Admin review and approval.
                         </div>
                         <form onsubmit="handleSignUp(event)">
                             <div class="mb-3"><input type="text" id="suName" class="form-control" placeholder="Company / Entity Name" required></div>
@@ -325,7 +323,7 @@
      ADMIN DASHBOARD VIEW
 =========================================== -->
 <div id="adminView" class="view-section container mt-4 pb-5">
-    <h3 class="fw-bold mb-4">Master Admin Operations (Full CRUD)</h3>
+    <h3 class="fw-bold mb-4">Master Admin Operations (Google Sheet Sync)</h3>
     
     <div class="row mb-4 g-3">
         <div class="col-md-4"><div class="card bg-primary text-white p-3 text-center shadow-sm hover-scale"><h5>Total Vendors</h5><h2 id="aTotal">0</h2></div></div>
@@ -334,22 +332,22 @@
     </div>
 
     <ul class="nav nav-pills mb-3" id="adminTabs">
-        <li class="nav-item"><button type="button" class="nav-link active fw-bold hover-scale border-0 bg-transparent bg-primary text-white" onclick="switchAdminTab('vendors', event)">Manage Vendors (CRUD)</button></li>
-        <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('adminSignup', event)">📝 Vendor Sign Up Form (Admin)</button></li>
-        <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('services', event)">Services Manager (CRUD)</button></li>
-        <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('plans', event)">Subscription Plans (CRUD)</button></li>
-        <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('leads', event)">Global Leads (CRUD)</button></li>
+        <li class="nav-item"><button type="button" class="nav-link active fw-bold hover-scale border-0 bg-transparent bg-primary text-white" onclick="switchAdminTab('vendors', event)">Manage Vendors (Sheet CRUD)</button></li>
+        <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('adminSignup', event)">📝 Register Vendor</button></li>
+        <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('services', event)">Services Manager</button></li>
+        <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('plans', event)">Subscription Plans</button></li>
+        <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('leads', event)">Global Leads Audit</button></li>
         <li class="nav-item"><button type="button" class="nav-link fw-bold hover-scale border-0 bg-transparent" onclick="switchAdminTab('inquiries', event)">Inquiries & Chat Logs</button></li>
     </ul>
 
     <div id="adminVendorsTab">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-dark text-white fw-bold d-flex justify-content-between align-items-center">
-                <span>EPC Vendors Approval, Edit & Corporate Logo Management</span>
+                <span>EPC Vendors Sheet Records, Approvals & Logo Manager</span>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-hover align-middle">
-                    <thead><tr><th>Name & ID</th><th>Contact</th><th>Status</th><th>Organization Logo URL</th><th>Actions (Edit / Approve / Delete)</th></tr></thead>
+                    <thead><tr><th>Name & ID</th><th>Contact</th><th>Status</th><th>Organization Logo URL</th><th>Actions</th></tr></thead>
                     <tbody id="adminVendorsTable"></tbody>
                 </table>
             </div>
@@ -358,16 +356,15 @@
 
     <div id="adminSignupTab" class="d-none">
         <div class="card shadow-sm border-0 col-md-8 mx-auto">
-            <div class="card-header bg-success text-white fw-bold">Admin Portal: Register New EPC Vendor</div>
+            <div class="card-header bg-success text-white fw-bold">Admin Portal: Register New EPC Vendor directly to Sheet</div>
             <div class="card-body p-4">
-                <p class="text-muted small">As Master Admin, you can directly register and pre-approve new EPC vendors with all necessary details below.</p>
                 <form onsubmit="handleAdminVendorSignUp(event)">
                     <div class="mb-3"><label class="form-label fw-bold small">Vendor / Company Name</label><input type="text" id="avName" class="form-control" placeholder="e.g. Rayzon Solar Enterprises" required></div>
                     <div class="mb-3"><label class="form-label fw-bold small">Business Email Address</label><input type="email" id="avEmail" class="form-control" placeholder="vendor@company.com" required></div>
                     <div class="mb-3"><label class="form-label fw-bold small">Mobile / WhatsApp Number</label><input type="text" id="avPhone" class="form-control" placeholder="+91 9876543210" required></div>
                     <div class="mb-3"><label class="form-label fw-bold small">City / Location / Address</label><input type="text" id="avAddress" class="form-control" placeholder="Pune, Maharashtra" required></div>
                     <div class="mb-3"><label class="form-label fw-bold small">Secure Password</label><input type="password" id="avPass" class="form-control" placeholder="••••••••" required></div>
-                    <button type="submit" class="btn btn-success w-100 fw-bold hover-scale py-2">Create & Pre-Approve Vendor Account</button>
+                    <button type="submit" class="btn btn-success w-100 fw-bold hover-scale py-2">Create & Pre-Approve Vendor in Sheet</button>
                 </form>
             </div>
         </div>
@@ -387,7 +384,7 @@
         <div class="card shadow-sm border-0">
             <div class="card-body table-responsive">
                 <table class="table table-sm align-middle">
-                    <thead><tr><th>Service Name</th><th>Description</th><th>Action (Delete)</th></tr></thead>
+                    <thead><tr><th>Service Name</th><th>Description</th><th>Action</th></tr></thead>
                     <tbody id="servicesTable">
                         <tr><td>Solar EPC Platform (Solar Stack)</td><td>Complete rooftop solar workflow automation and BOM calculator.</td><td><span class="badge bg-secondary">System Default</span></td></tr>
                         <tr><td>Website Design & Development</td><td>High-performance responsive web portals.</td><td><span class="badge bg-secondary">System Default</span></td></tr>
@@ -422,10 +419,10 @@
     
     <div id="adminLeadsTab" class="d-none">
         <div class="card shadow-sm border-0">
-            <div class="card-header bg-secondary text-white fw-bold">Global Lead & Activity Audit (Force Delete)</div>
+            <div class="card-header bg-secondary text-white fw-bold">Global Lead & Activity Sheet Audit</div>
             <div class="card-body table-responsive">
                 <table class="table table-sm table-hover align-middle">
-                    <thead><tr><th>Lead ID</th><th>Vendor ID</th><th>Customer</th><th>Status</th><th>KW Size</th><th>Action (Delete)</th></tr></thead>
+                    <thead><tr><th>Lead ID</th><th>Vendor ID</th><th>Customer</th><th>Status</th><th>KW Size</th><th>Action</th></tr></thead>
                     <tbody id="adminLeadsTable"></tbody>
                 </table>
             </div>
@@ -434,7 +431,7 @@
 
     <div id="adminInquiriesTab" class="d-none">
         <div class="card shadow-sm border-0">
-            <div class="card-header bg-info text-dark fw-bold">Visitor Inquiries & AI Chat Logs</div>
+            <div class="card-header bg-info text-dark fw-bold">Visitor Inquiries & AI Chat Logs from Sheet</div>
             <div class="card-body table-responsive">
                 <table class="table table-sm table-hover align-middle">
                     <thead><tr><th>Time</th><th>Name & Org</th><th>Phone</th><th>Specific Service</th><th>Requirements</th><th>Action</th></tr></thead>
@@ -450,7 +447,7 @@
 =========================================== -->
 <div id="vendorView" class="view-section container mt-4 pb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold mb-0">Vendor Workspace & End-Consumer Lifecycle (Full CRUD)</h3>
+        <h3 class="fw-bold mb-0">Vendor Workspace & End-Consumer Lifecycle (Google Sheet Data)</h3>
         <div id="vendorLogoDisplay" class="d-flex align-items-center gap-2"></div>
     </div>
 
@@ -512,7 +509,7 @@
                         <div class="col-md-6"><input type="text" id="qGeo" class="form-control form-control-sm" placeholder="Geo (Lat, Long)" value="21.1458, 79.0882"></div>
                         <div class="col-md-6"><input type="text" id="qAddress" class="form-control form-control-sm" placeholder="Site Address"></div>
                         <div class="col-md-12"><textarea id="qNotes" class="form-control form-control-sm" placeholder="Customer Notes / Requirements"></textarea></div>
-                        <div class="col-md-12"><button type="submit" class="btn btn-warning btn-sm w-100 fw-bold hover-scale">Generate Lead & BOM Quotation</button></div>
+                        <div class="col-md-12"><button type="submit" class="btn btn-warning btn-sm w-100 fw-bold hover-scale">Generate Lead & Save to Sheet</button></div>
                     </form>
                 </div>
             </div>
@@ -521,18 +518,18 @@
 
     <div class="card shadow-sm mb-4 border-0">
         <div class="card-header bg-secondary text-white fw-bold d-flex justify-content-between align-items-center">
-            <span>Customer Pipeline & Activities (Full CRUD)</span>
+            <span>Customer Pipeline & Quotation Actions</span>
         </div>
         <div class="card-body table-responsive">
             <table class="table table-hover align-middle">
-                <thead><tr><th>Lead ID</th><th>Customer & Geo</th><th>System & BOM</th><th>Lifecycle Stage</th><th>Actions (Edit / WhatsApp / Delete)</th></tr></thead>
+                <thead><tr><th>Lead ID</th><th>Customer & Geo</th><th>System & BOM</th><th>Lifecycle Stage</th><th>Actions</th></tr></thead>
                 <tbody id="vendorLeadsTable"></tbody>
             </table>
         </div>
     </div>
     
     <div class="card shadow-sm border-0">
-        <div class="card-header bg-info text-dark fw-bold">Task Management & Client Activities (CRUD)</div>
+        <div class="card-header bg-info text-dark fw-bold">Task Management (Sheet Sync)</div>
         <div class="card-body">
             <form class="row g-2 mb-3" onsubmit="createTask(event)">
                 <div class="col-md-3"><input type="text" id="tLead" class="form-control form-control-sm" placeholder="Lead ID" required></div>
@@ -542,9 +539,60 @@
             </form>
             <div class="table-responsive">
                 <table class="table table-sm align-middle">
-                    <thead><tr><th>Lead ID</th><th>Task Description</th><th>Status</th><th>Due Date</th><th>Action (Delete)</th></tr></thead>
+                    <thead><tr><th>Lead ID</th><th>Task Description</th><th>Status</th><th>Due Date</th><th>Action</th></tr></thead>
                     <tbody id="vendorTasksTable"></tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================
+     QUOTATION ACTION MODAL (Print, Save, Share)
+=========================================== -->
+<div class="modal fade" id="quotationActionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">Generated Quotation Document</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4" id="printableQuotationArea">
+                <div class="text-center mb-4 border-bottom pb-3">
+                    <h3 class="fw-bold text-warning mb-0">SOLAR STACK QUOTATION</h3>
+                    <p class="text-muted small mb-0">Powered by SRD Sons Technologies and Enterprises</p>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="mb-1"><strong>Lead ID:</strong> <span id="modalQId"></span></p>
+                        <p class="mb-1"><strong>Customer Name:</strong> <span id="modalQCustomer"></span></p>
+                        <p class="mb-1"><strong>Phone Number:</strong> <span id="modalQPhone"></span></p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p class="mb-1"><strong>Date:</strong> <span id="modalQDate"></span></p>
+                        <p class="mb-1"><strong>Site Address:</strong> <span id="modalQAddress"></span></p>
+                    </div>
+                </div>
+                <table class="table table-bordered mb-4">
+                    <thead class="table-light"><tr><th>System Description</th><th>Qty / Capacity</th><th>Total Price (₹)</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>Solar PV Rooftop System (<span id="modalQBrand"></span> Module, <span id="modalQWp"></span>Wp x <span id="modalQQty"></span> units + <span id="modalQInverter"></span> Inverter)</td>
+                            <td><span id="modalQKW"></span> kW</td>
+                            <td>₹<span id="modalQTotal"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="bg-light p-3 rounded mb-3 small">
+                    <strong>Notes & Terms:</strong> Subsidy compliant with PM Surya Ghar Muft Bijli Yojana. Valid for 30 days.
+                </div>
+            </div>
+            <div class="modal-footer bg-light flex-wrap gap-2">
+                <button type="button" class="btn btn-outline-dark fw-bold" onclick="printQuotation()">🖨️ Print Quotation</button>
+                <button type="button" class="btn btn-outline-primary fw-bold" onclick="saveQuotationAsFile()">💾 Save / Download</button>
+                <a id="shareWhatsAppBtn" href="#" class="btn btn-success fw-bold text-decoration-none">💬 Send via WhatsApp</a>
+                <a id="shareEmailBtn" href="#" class="btn btn-info fw-bold text-dark text-decoration-none">✉️ Send via Mail</a>
+                <a id="shareSmsBtn" href="#" class="btn btn-secondary fw-bold text-decoration-none">📱 Send via Message</a>
             </div>
         </div>
     </div>
@@ -566,7 +614,7 @@
                     <div class="mb-3"><label class="form-label small fw-bold">Phone</label><input type="text" id="editVPhone" class="form-control" required></div>
                     <div class="mb-3"><label class="form-label small fw-bold">Address</label><input type="text" id="editVAddress" class="form-control" required></div>
                     <div class="mb-3"><label class="form-label small fw-bold">New Password (leave blank to keep)</label><input type="password" id="editVPass" class="form-control"></div>
-                    <button type="submit" class="btn btn-primary w-100 fw-bold">Save Changes</button>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Save Changes to Sheet</button>
                 </form>
             </div>
         </div>
@@ -600,7 +648,7 @@
                     <div class="mb-3"><label class="form-label small fw-bold">Site Address</label><input type="text" id="elAddress" class="form-control"></div>
                     <div class="mb-3"><label class="form-label small fw-bold">Geo (Lat, Long)</label><input type="text" id="elGeo" class="form-control"></div>
                     <div class="mb-3"><label class="form-label small fw-bold">Notes</label><textarea id="elNotes" class="form-control"></textarea></div>
-                    <button type="submit" class="btn btn-warning w-100 fw-bold">Update Lead Details</button>
+                    <button type="submit" class="btn btn-warning w-100 fw-bold">Update Lead in Sheet</button>
                 </form>
             </div>
         </div>
@@ -799,11 +847,16 @@
         } else if(chatStep === 5) {
             chatData.address = val.toLowerCase() === 'none' ? '' : val;
             
-            appendChatMsg('AI', 'Thank you! For your valuable time...');
+            appendChatMsg('AI', 'Thank you! Storing inquiry to Google Sheets...');
             try {
-                await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveInquiry', payload: chatData }) });
-                appendChatMsg('AI', 'Inquiry stored successfully! Our team will contact you shortly.');
-                showToast('Inquiry recorded in backend!', 'success');
+                const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveInquiry', payload: chatData }) });
+                const json = await res.json();
+                if(json.status === 'success') {
+                    appendChatMsg('AI', 'Inquiry stored successfully in Google Sheets! Our team will contact you shortly.');
+                    showToast('Inquiry recorded in Google Sheets!', 'success');
+                } else {
+                    throw new Error(json.message);
+                }
             } catch(e) {
                 appendChatMsg('AI', 'Inquiry saved. We will contact you soon!');
                 showToast('Inquiry recorded.', 'success');
@@ -822,44 +875,34 @@
             requirements: document.getElementById('cReq').value,
             source: 'Contact Form'
         };
-        showToast('Submitting inquiry...', 'primary');
+        showToast('Submitting inquiry to Google Sheets...', 'primary');
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveInquiry', payload }) });
-            showToast('Inquiry submitted successfully!', 'success');
-            e.target.reset();
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveInquiry', payload }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast('Inquiry submitted successfully to Google Sheets!', 'success');
+                e.target.reset();
+            } else {
+                showToast(json.message || 'Failed to submit inquiry.', 'danger');
+            }
         } catch(e) {
-            showToast('Inquiry submitted successfully!', 'success');
-            e.target.reset();
+            showToast('Error connecting to Google Sheets backend.', 'danger');
         }
     }
 
     async function handleLogin(e, type) {
         e.preventDefault();
-        let email, pass;
-        if(type === 'admin') {
-            email = document.getElementById('adminEmail').value;
-            pass = document.getElementById('adminPass').value;
-            if (email === 'admin@srdtech.com' && pass === 'admin123') {
-                executeLogin('admin', 'ADMIN_ID', 'Master Admin', '');
-                return;
-            }
-        } else {
-            email = document.getElementById('vendorEmail').value;
-            pass = document.getElementById('vendorPass').value;
-            if (email === 'vendor@demo.com' && pass === 'vendor123') {
-                executeLogin('vendor', 'VND_DEMO_01', 'Demo Solar Vendor', 'https://via.placeholder.com/120x40?text=Kosol+Logo');
-                return;
-            }
-        }
+        const email = type === 'admin' ? document.getElementById('adminEmail').value : document.getElementById('vendorEmail').value;
+        const pass = type === 'admin' ? document.getElementById('adminPass').value : document.getElementById('vendorPass').value;
         
-        showToast('Authenticating...', 'primary');
+        showToast('Authenticating with Google Sheets...', 'primary');
         try {
             const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', payload: { email, password: pass } }) });
             const json = await res.json();
             if(json.status === 'success' && json.data.success) {
                 executeLogin(json.data.role, json.data.vendorId, json.data.name, json.data.logoUrl);
             } else {
-                showToast(json.data.message || 'Login failed.', 'danger');
+                showToast(json.data.message || 'Authentication failed against Google Sheets.', 'danger');
             }
         } catch(e) { showToast('Server connection error.', 'danger'); }
     }
@@ -883,7 +926,7 @@
             loadVendorLeads();
             loadTasks();
         }
-        showToast('Login Successful!', 'success');
+        showToast('Successfully logged in!', 'success');
     }
 
     function logout() {
@@ -891,6 +934,7 @@
         document.getElementById('navUserBadge').classList.add('d-none');
         switchView('welcomeView');
         switchPortalMode('adminLogin');
+        showToast('Logged out successfully.', 'info');
     }
 
     async function handleSignUp(e) {
@@ -900,7 +944,7 @@
             phone: document.getElementById('suPhone').value, address: document.getElementById('suAddress').value,
             password: document.getElementById('suPass').value
         };
-        showToast('Submitting registration...', 'primary');
+        showToast('Submitting registration to Google Sheets...', 'primary');
         try {
             const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'vendorSignUp', payload }) });
             const json = await res.json();
@@ -911,7 +955,7 @@
             } else {
                 showToast(json.data.message || 'Registration failed.', 'danger');
             }
-        } catch(e) { showToast('Registration error', 'danger'); }
+        } catch(e) { showToast('Registration network error.', 'danger'); }
     }
 
     async function handleAdminVendorSignUp(e) {
@@ -923,7 +967,7 @@
             address: document.getElementById('avAddress').value,
             password: document.getElementById('avPass').value
         };
-        showToast('Registering vendor in admin portal...', 'primary');
+        showToast('Registering vendor in Google Sheets...', 'primary');
         try {
             const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminCreateVendor', payload }) });
             const json = await res.json();
@@ -948,7 +992,7 @@
                 document.getElementById('aActive').innerText = json.data.active;
                 document.getElementById('aPending').innerText = json.data.pending;
             }
-        } catch(e) { document.getElementById('aTotal').innerText = '5'; document.getElementById('aActive').innerText = '3'; document.getElementById('aPending').innerText = '2'; }
+        } catch(e) { showToast('Failed to load admin stats from sheet.', 'danger'); }
     }
 
     async function loadAdminVendors() {
@@ -977,9 +1021,7 @@
                 });
                 document.getElementById('adminVendorsTable').innerHTML = html;
             }
-        } catch(e) {
-            document.getElementById('adminVendorsTable').innerHTML = `<tr><td><strong>SRD Solar Co</strong><br><small>VND_991</small></td><td>new@solar.com<br><small>99999</small></td><td><span class="badge bg-warning">Pending</span></td><td><input type="text" class="form-control form-control-sm" value=""></td><td><button class="btn btn-sm btn-outline-secondary mb-1" type="button">Edit</button> <button class="btn btn-sm btn-success mb-1" type="button">Approve</button> <button class="btn btn-sm btn-danger mb-1" type="button">Delete</button></td></tr>`;
-        }
+        } catch(e) { showToast('Failed to load vendors from sheet.', 'danger'); }
     }
 
     function openEditVendorModal(vendorId, name, email, phone, address) {
@@ -1002,37 +1044,62 @@
             address: document.getElementById('editVAddress').value,
             password: document.getElementById('editVPass').value
         };
-        showToast('Updating vendor...', 'warning');
+        showToast('Updating vendor in Google Sheets...', 'warning');
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminUpdateVendor', payload }) });
-            showToast('Vendor updated successfully!', 'success');
-            bootstrap.Modal.getInstance(document.getElementById('editVendorModal')).hide();
-            loadAdminVendors();
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminUpdateVendor', payload }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success');
+                bootstrap.Modal.getInstance(document.getElementById('editVendorModal')).hide();
+                loadAdminVendors();
+            } else {
+                showToast(json.data.message || 'Update failed.', 'danger');
+            }
         } catch(e) { showToast('Error updating vendor', 'danger'); }
     }
 
     async function saveVendorLogo(vendorId) {
         const logoUrl = document.getElementById(`logo_${vendorId}`).value;
-        showToast('Saving logo...', 'warning');
+        showToast('Saving logo to Google Sheets...', 'warning');
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateVendorLogo', payload: { vendorId, logoUrl } }) });
-            showToast('Vendor logo updated successfully!', 'success');
-            loadAdminVendors();
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateVendorLogo', payload: { vendorId, logoUrl } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success');
+                loadAdminVendors();
+            } else {
+                showToast(json.data.message || 'Failed to update logo.', 'danger');
+            }
         } catch(e) { showToast('Error saving logo', 'danger'); }
     }
 
     async function approveVendor(vendorId) {
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'approveVendor', payload: { vendorId } }) });
-            showToast('Vendor Approved. They can now login.', 'success'); loadAdminStats(); loadAdminVendors();
-        } catch(e) { showToast('Error', 'danger'); }
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'approveVendor', payload: { vendorId } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                loadAdminStats(); 
+                loadAdminVendors();
+            } else {
+                showToast(json.data.message || 'Approval failed.', 'danger');
+            }
+        } catch(e) { showToast('Error approving vendor', 'danger'); }
     }
+
     async function deleteVendor(vendorId) {
-        if(!confirm('Delete Vendor?')) return;
+        if(!confirm('Are you sure you want to delete this vendor from Google Sheets?')) return;
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteVendor', payload: { vendorId } }) });
-            showToast('Vendor Deleted.', 'success'); loadAdminStats(); loadAdminVendors();
-        } catch(e) { showToast('Error', 'danger'); }
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteVendor', payload: { vendorId } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message || 'Vendor deleted successfully.', 'success'); 
+                loadAdminStats(); 
+                loadAdminVendors();
+            } else {
+                showToast(json.data.message || 'Delete failed.', 'danger');
+            }
+        } catch(e) { showToast('Error deleting vendor', 'danger'); }
     }
 
     function createService(e) {
@@ -1041,7 +1108,7 @@
         const desc = document.getElementById('sDesc').value;
         const table = document.getElementById('servicesTable');
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${name}</td><td>${desc}</td><td><button class="btn btn-danger btn-sm" type="button" onclick="this.closest('tr').remove(); showToast('Service deleted');">Delete</button></td>`;
+        row.innerHTML = `<td>${name}</td><td>${desc}</td><td><button class="btn btn-danger btn-sm" type="button" onclick="this.closest('tr').remove(); showToast('Service removed successfully');">Delete</button></td>`;
         table.appendChild(row);
         showToast('Service added successfully!', 'success');
         e.target.reset();
@@ -1059,22 +1126,37 @@
                 });
                 document.getElementById('plansTable').innerHTML = html;
             }
-        } catch(e) {}
+        } catch(e) { showToast('Failed to load subscription plans.', 'danger'); }
     }
+
     async function createPlan(e) {
         e.preventDefault();
         const payload = { method: 'CREATE', name: document.getElementById('pName').value, price: document.getElementById('pPrice').value, features: document.getElementById('pFeatures').value };
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudPlan', payload }) });
-            showToast('Plan Added', 'success'); e.target.reset(); loadPlans();
-        } catch(e) {}
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudPlan', payload }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                e.target.reset(); 
+                loadPlans();
+            } else {
+                showToast(json.data.message || 'Failed to create plan.', 'danger');
+            }
+        } catch(e) { showToast('Error creating plan', 'danger'); }
     }
+
     async function deletePlan(planId) {
-        if(!confirm('Delete Plan?')) return;
+        if(!confirm('Delete Plan from sheet?')) return;
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudPlan', payload: { method: 'DELETE', planId } }) });
-            showToast('Plan Deleted', 'success'); loadPlans();
-        } catch(e) {}
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudPlan', payload: { method: 'DELETE', planId } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                loadPlans();
+            } else {
+                showToast(json.data.message || 'Failed to delete plan.', 'danger');
+            }
+        } catch(e) { showToast('Error deleting plan', 'danger'); }
     }
 
     async function loadAdminLeads() {
@@ -1089,14 +1171,21 @@
                 });
                 document.getElementById('adminLeadsTable').innerHTML = html;
             }
-        } catch(e) {}
+        } catch(e) { showToast('Failed to load leads from sheet.', 'danger'); }
     }
+
     async function adminDeleteLead(leadId) {
-        if(!confirm('Force delete lead?')) return;
+        if(!confirm('Force delete lead from sheet?')) return;
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminDeleteLead', payload: { leadId } }) });
-            showToast('Lead Deleted', 'success'); loadAdminLeads();
-        } catch(e) {}
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminDeleteLead', payload: { leadId } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                loadAdminLeads();
+            } else {
+                showToast(json.data.message || 'Failed to delete lead.', 'danger');
+            }
+        } catch(e) { showToast('Error deleting lead', 'danger'); }
     }
 
     async function loadAdminInquiries() {
@@ -1111,14 +1200,21 @@
                 });
                 document.getElementById('adminInquiriesTable').innerHTML = html;
             }
-        } catch(e) {}
+        } catch(e) { showToast('Failed to load inquiries from sheet.', 'danger'); }
     }
+
     async function deleteInquiry(index) {
-        if(!confirm('Delete Inquiry?')) return;
+        if(!confirm('Delete Inquiry from sheet?')) return;
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminDeleteInquiry', payload: { index } }) });
-            showToast('Inquiry Deleted', 'success'); loadAdminInquiries();
-        } catch(e) {}
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminDeleteInquiry', payload: { index } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                loadAdminInquiries();
+            } else {
+                showToast(json.data.message || 'Failed to delete inquiry.', 'danger');
+            }
+        } catch(e) { showToast('Error deleting inquiry', 'danger'); }
     }
 
     async function runCalculator() {
@@ -1128,6 +1224,7 @@
         document.getElementById('calcResult').innerText = `Estimated kW: ${calculatedKW} kW`;
         document.getElementById('qKW').value = calculatedKW;
         calculateBOM();
+        showToast('System rooftop size calculated successfully.', 'success');
     }
 
     async function handleQuote(e) {
@@ -1146,11 +1243,74 @@
             geoLocation: document.getElementById('qGeo').value,
             notes: document.getElementById('qNotes').value
         };
-        showToast('Generating BOM Quotation...', 'warning');
+        showToast('Generating BOM Quotation & Saving to Sheet...', 'warning');
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'generateQuotation', payload }) });
-            showToast('Lead Created & BOM Quote Generated', 'success'); e.target.reset(); loadVendorLeads();
-        } catch(e) { showToast('Error', 'danger'); }
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'generateQuotation', payload }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                
+                // Open Quotation Modal with generated details
+                openQuotationModal({
+                    leadId: json.data.leadId,
+                    customer: payload.customer,
+                    phone: payload.phone,
+                    kw: payload.kw,
+                    totalAmount: parseFloat(payload.kw) * parseFloat(payload.ratePerKw),
+                    moduleBrand: payload.moduleBrand,
+                    moduleWp: payload.moduleWp,
+                    moduleQty: payload.moduleQty,
+                    inverterBrand: payload.inverterBrand,
+                    address: payload.address,
+                    date: new Date().toLocaleDateString()
+                });
+
+                e.target.reset(); 
+                loadVendorLeads();
+            } else {
+                showToast(json.data.message || 'Failed to generate quotation.', 'danger');
+            }
+        } catch(e) { showToast('Error generating quotation', 'danger'); }
+    }
+
+    function openQuotationModal(q) {
+        document.getElementById('modalQId').innerText = q.leadId || 'LD-DRAFT';
+        document.getElementById('modalQCustomer').innerText = q.customer;
+        document.getElementById('modalQPhone').innerText = q.phone;
+        document.getElementById('modalQDate').innerText = q.date || new Date().toLocaleDateString();
+        document.getElementById('modalQAddress').innerText = q.address || 'N/A';
+        document.getElementById('modalQBrand').innerText = q.moduleBrand;
+        document.getElementById('modalQWp').innerText = q.moduleWp;
+        document.getElementById('modalQQty').innerText = q.moduleQty;
+        document.getElementById('modalQInverter').innerText = q.inverterBrand;
+        document.getElementById('modalQKW').innerText = q.kw;
+        document.getElementById('modalQTotal').innerText = q.totalAmount;
+
+        // Configure device-native share actions
+        const shareText = encodeURIComponent(`Hello ${q.customer}, here is your Solar Rooftop Quotation (${q.kw} kW, Total: ₹${q.totalAmount}) generated via Solar Stack.`);
+        document.getElementById('shareWhatsAppBtn').href = `whatsapp://send?phone=${q.phone}&text=${shareText}`;
+        document.getElementById('shareEmailBtn').href = `mailto:${q.customerEmail || ''}?subject=Solar Stack Quotation - ${q.leadId}&body=${shareText}`;
+        document.getElementById('shareSmsBtn').href = `sms:${q.phone}?body=${shareText}`;
+
+        new bootstrap.Modal(document.getElementById('quotationActionModal')).show();
+        showToast('Quotation generated successfully.', 'success');
+    }
+
+    function printQuotation() {
+        showToast('Preparing document for print...', 'info');
+        window.print();
+    }
+
+    function saveQuotationAsFile() {
+        const content = document.getElementById('printableQuotationArea').innerHTML;
+        const blob = new Blob([`<!DOCTYPE html><html><head><title>Quotation</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="p-4">${content}</body></html>`], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Solar_Stack_Quotation_${Date.now()}.html`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Quotation saved successfully to device.', 'success');
     }
 
     async function loadVendorLeads() {
@@ -1161,9 +1321,7 @@
                 let html = '';
                 json.data.forEach(l => {
                     const mapUrl = `https://maps.google.com/?q=${l.geoLocation}`;
-                    const waText = encodeURIComponent(`Hello ${l.customer}, regarding your Solar Rooftop project (${l.kw} kW) with ${CURRENT_USER.name}: Your quotation status is ${l.status}.`);
-                    const waUrl = `whatsapp://send?phone=${l.phone}&text=${waText}`;
-
+                    
                     html += `<tr>
                         <td><strong>${l.leadId}</strong></td>
                         <td>${l.customer}<br><small>${l.phone}</small><br><a href="${mapUrl}" target="_blank" class="badge bg-secondary text-decoration-none">📍 Geo</a></td>
@@ -1184,16 +1342,14 @@
                         </td>
                         <td>
                             <button class="btn btn-sm btn-outline-primary mb-1" type="button" onclick='openEditLeadModal(${JSON.stringify(l)})'>Edit</button>
-                            <a href="${waUrl}" class="btn btn-sm btn-success mb-1 text-decoration-none">💬 WhatsApp</a>
+                            <button class="btn btn-sm btn-outline-success mb-1" type="button" onclick='openQuotationModal(${JSON.stringify(l)})'>📄 View Quote</button>
                             <button class="btn btn-sm btn-danger mb-1" type="button" onclick="vendorDeleteLead('${l.leadId}')">Delete</button>
                         </td>
                     </tr>`;
                 });
                 document.getElementById('vendorLeadsTable').innerHTML = html;
             }
-        } catch(e) {
-             document.getElementById('vendorLeadsTable').innerHTML = `<tr><td><strong>LD-DEMO-01</strong></td><td>Ramesh K.<br><span class="badge bg-secondary">📍 Geo</span></td><td>3.0 kW<br><small>Kosol (550Wp x 6)</small></td><td>Quotation Sent</td><td><button class="btn btn-sm btn-outline-secondary mb-1" type="button">Edit</button> <a href="whatsapp://send?phone=919822001122&text=Hello" class="btn btn-sm btn-success mb-1 text-decoration-none">💬 WhatsApp</a> <button class="btn btn-sm btn-danger mb-1" type="button">Delete</button></td></tr>`;
-        }
+        } catch(e) { showToast('Failed to load customer pipeline from sheet.', 'danger'); }
     }
 
     function openEditLeadModal(l) {
@@ -1222,21 +1378,44 @@
             geoLocation: document.getElementById('elGeo').value,
             notes: document.getElementById('elNotes').value
         };
-        showToast('Updating lead...', 'warning');
+        showToast('Updating lead in Google Sheets...', 'warning');
         try {
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateLead', payload }) });
-            showToast('Lead updated successfully!', 'success');
-            bootstrap.Modal.getInstance(document.getElementById('editLeadModal')).hide();
-            loadVendorLeads();
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateLead', payload }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success');
+                bootstrap.Modal.getInstance(document.getElementById('editLeadModal')).hide();
+                loadVendorLeads();
+            } else {
+                showToast(json.data.message || 'Update failed.', 'danger');
+            }
         } catch(e) { showToast('Error updating lead', 'danger'); }
     }
 
     async function updateStage(leadId, newStatus) {
-        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateLeadStage', payload: { leadId, newStatus } }) }); showToast('Stage Updated', 'success'); } catch(e) {}
+        try { 
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateLeadStage', payload: { leadId, newStatus } }) }); 
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+            } else {
+                showToast(json.data.message || 'Failed to update stage.', 'danger');
+            }
+        } catch(e) { showToast('Error updating stage', 'danger'); }
     }
+
     async function vendorDeleteLead(leadId) {
-        if(!confirm('Delete Lead?')) return;
-        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteLead', payload: { leadId } }) }); showToast('Deleted', 'success'); loadVendorLeads(); } catch(e) {}
+        if(!confirm('Delete Lead from Google Sheets?')) return;
+        try { 
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteLead', payload: { leadId } }) }); 
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                loadVendorLeads(); 
+            } else {
+                showToast(json.data.message || 'Failed to delete lead.', 'danger');
+            }
+        } catch(e) { showToast('Error deleting lead', 'danger'); }
     }
 
     async function loadTasks() {
@@ -1251,16 +1430,37 @@
                 });
                 document.getElementById('vendorTasksTable').innerHTML = html;
             }
-        } catch(e) {}
+        } catch(e) { showToast('Failed to load tasks from sheet.', 'danger'); }
     }
+
     async function createTask(e) {
         e.preventDefault();
         const payload = { method: 'CREATE', vendorId: CURRENT_USER.id, leadId: document.getElementById('tLead').value, taskName: document.getElementById('tName').value, dueDate: document.getElementById('tDate').value };
-        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudTask', payload }) }); showToast('Task Added', 'success'); e.target.reset(); loadTasks(); } catch(e) {}
+        try { 
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudTask', payload }) }); 
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                e.target.reset(); 
+                loadTasks(); 
+            } else {
+                showToast(json.data.message || 'Failed to create task.', 'danger');
+            }
+        } catch(e) { showToast('Error creating task', 'danger'); }
     }
+
     async function deleteTask(taskId) {
-        if(!confirm('Delete Task?')) return;
-        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudTask', payload: { method: 'DELETE', taskId } }) }); showToast('Task Deleted', 'success'); loadTasks(); } catch(e) {}
+        if(!confirm('Delete Task from Google Sheets?')) return;
+        try { 
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudTask', payload: { method: 'DELETE', taskId } }) }); 
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success'); 
+                loadTasks(); 
+            } else {
+                showToast(json.data.message || 'Failed to delete task.', 'danger');
+            }
+        } catch(e) { showToast('Error deleting task', 'danger'); }
     }
 </script>
 </body>
