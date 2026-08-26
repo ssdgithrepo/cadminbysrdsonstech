@@ -176,8 +176,8 @@
                 <div class="mb-3"><strong>Email ID:</strong><br><span class="text-muted">srdsons.info@gmail.com</span></div>
                 <div class="mb-3"><strong>Working Hours:</strong><br><span class="text-muted">Monday To Saturday: 09:00 AM to 06:00 PM</span></div>
                 
-                <!-- Universal WhatsApp Scheme Link -->
-                <a href="https://api.whatsapp.com/send?phone=919356961915&text=Hello%20SRD%20Sons%20Tech,%20I%20want%20to%20inquire%20about%20Solar%20Stack%20and%20your%20services." target="_blank" class="btn btn-success fw-bold mt-2 hover-scale">
+                <!-- Native WhatsApp App Intent Link -->
+                <a href="whatsapp://send?phone=919356961915&text=Hello%20SRD%20Sons%20Tech,%20I%20want%20to%20inquire%20about%20Solar%20Stack%20and%20your%20services." class="btn btn-success fw-bold mt-2 hover-scale">
                     💬 Chat Directly on WhatsApp
                 </a>
             </div>
@@ -1149,7 +1149,7 @@
                 json.data.forEach(l => {
                     const mapUrl = `https://maps.google.com/?q=${l.geoLocation}`;
                     const waText = encodeURIComponent(`Hello ${l.customer}, regarding your Solar Rooftop project (${l.kw} kW) with ${CURRENT_USER.name}: Your quotation status is ${l.status}.`);
-                    const waUrl = `https://api.whatsapp.com/send?phone=${l.phone}&text=${waText}`;
+                    const waUrl = `whatsapp://send?phone=${l.phone}&text=${waText}`;
 
                     html += `<tr>
                         <td><strong>${l.leadId}</strong></td>
@@ -1171,7 +1171,7 @@
                         </td>
                         <td>
                             <button class="btn btn-sm btn-outline-primary mb-1" type="button" onclick='openEditLeadModal(${JSON.stringify(l)})'>Edit</button>
-                            <a href="${waUrl}" target="_blank" class="btn btn-sm btn-success mb-1 text-decoration-none">💬 WhatsApp</a>
+                            <a href="${waUrl}" class="btn btn-sm btn-success mb-1 text-decoration-none">💬 WhatsApp</a>
                             <button class="btn btn-sm btn-danger mb-1" type="button" onclick="vendorDeleteLead('${l.leadId}')">Delete</button>
                         </td>
                     </tr>`;
@@ -1179,7 +1179,7 @@
                 document.getElementById('vendorLeadsTable').innerHTML = html;
             }
         } catch(e) {
-             document.getElementById('vendorLeadsTable').innerHTML = `<tr><td><strong>LD-DEMO-01</strong></td><td>Ramesh K.<br><span class="badge bg-secondary">📍 Geo</span></td><td>3.0 kW<br><small>Kosol (550Wp x 6)</small></td><td>Quotation Sent</td><td><button class="btn btn-sm btn-outline-secondary mb-1" type="button">Edit</button> <a href="https://api.whatsapp.com/send?phone=919822001122&text=Hello" target="_blank" class="btn btn-sm btn-success mb-1 text-decoration-none">💬 WhatsApp</a> <button class="btn btn-sm btn-danger mb-1" type="button">Delete</button></td></tr>`;
+             document.getElementById('vendorLeadsTable').innerHTML = `<tr><td><strong>LD-DEMO-01</strong></td><td>Ramesh K.<br><span class="badge bg-secondary">📍 Geo</span></td><td>3.0 kW<br><small>Kosol (550Wp x 6)</small></td><td>Quotation Sent</td><td><button class="btn btn-sm btn-outline-secondary mb-1" type="button">Edit</button> <a href="whatsapp://send?phone=919822001122&text=Hello" class="btn btn-sm btn-success mb-1 text-decoration-none">💬 WhatsApp</a> <button class="btn btn-sm btn-danger mb-1" type="button">Delete</button></td></tr>`;
         }
     }
 
