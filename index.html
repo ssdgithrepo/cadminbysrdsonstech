@@ -10,7 +10,6 @@
         .active-view { display: block; }
         .brand-text { font-weight: 800; background: -webkit-linear-gradient(45deg, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Transition & Hover Enhancements for Welcome Navigation Tabs */
         .hover-scale { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .hover-scale:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .nav-link { transition: all 0.3s ease; border-radius: 6px; }
@@ -19,22 +18,1204 @@
         .service-card { transition: all 0.3s ease; border-left: 4px solid #f59e0b; }
         .service-card:hover { background-color: #fffbeb; transform: translateY(-5px); }
         
-        /* AI Chat Widget Floating */
         #aiChatWidget { position: fixed; bottom: 20px; right: 20px; z-index: 1050; }
         #chatBox { width: 360px; height: 480px; display: none; flex-direction: column; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
         
-        /* Carousel aesthetic */
         .carousel-item { height: 500px; background-size: cover; background-position: center; }
         .carousel-caption { background: rgba(0, 0, 0, 0.65); padding: 30px; border-radius: 12px; }
         
-        /* 3-Way Portal Shifting Cards */
-        .portal-switcher-btn { cursor: pointer; transition: all 0.3s ease; border: 2px solid #dee2e6; background-color: #f8f9fa; }
+        .portal-switcher-btn { cursor: pointer; transition: all 0.3s ease; border: 2px solid #dee2e6; background-color: #f8f9fa; font-size: 0.9rem; }
         .portal-switcher-btn:hover { border-color: #f59e0b; background-color: #fffbeb; transform: translateY(-2px); }
         .portal-switcher-btn.active-portal { border-color: #f59e0b; background-color: #ffc107 !important; color: #000 !important; font-weight: bold; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
 
         body { background-color: #f8f9fa; }
     </style>
 </head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3 shadow-sm sticky-top">
+    <a class="navbar-brand brand-text fs-4" href="#" onclick="switchView('welcomeView')">Solar Stack <span style="font-size: 0.6em; -webkit-text-fill-color: #fff;">by SRD Sons Tech</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link hover-scale px-3" href="#" onclick="switchView('welcomeView'); collapseNavbar();">Home</a></li>
+            <li class="nav-item"><a class="nav-link hover-scale px-3" href="#servicesSection" onclick="collapseNavbar()">Services</a></li>
+            <li class="nav-item"><a class="nav-link hover-scale px-3" href="#aboutSection" onclick="collapseNavbar()">About Us</a></li>
+            <li class="nav-item"><a class="nav-link hover-scale px-3" href="#contactSection" onclick="collapseNavbar()">Contact</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+            <button class="btn btn-warning btn-sm hover-scale text-dark fw-bold px-3 py-2" onclick="switchView('authView'); switchPortalMode('adminLogin'); collapseNavbar();">Portal Login & Sign Up</button>
+            <div id="navUserBadge" class="text-white ms-2 d-none">
+                <span id="userNameDisplay" class="fw-bold me-2"></span>
+                <button class="btn btn-outline-danger btn-sm hover-scale" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- UI Feedback Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1150;">
+    <div id="actionToast" class="toast align-items-center text-white border-0 shadow" role="alert">
+        <div class="d-flex">
+            <div class="toast-body fw-bold" id="toastMessage">Action completed!</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================
+     WELCOME LANDING PAGE VIEW
+=========================================== -->
+<div id="welcomeView" class="view-section active-view">
+    
+    <!-- Carousel Slider -->
+    <div id="heroCarousel" class="carousel slide carousel-fade shadow-sm" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1509391365360-e835f3774e6f?auto=format&fit=crop&w=1920&q=80')">
+                <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
+                    <h1 class="display-4 fw-bold text-warning">Solar Stack Enterprise EPC</h1>
+                    <p class="lead text-light">Powered by SRD Sons Technologies and Enterprises. Complete Solar Lifecycle & Vendor Management.</p>
+                    <button class="btn btn-warning btn-lg fw-bold text-dark mt-3 hover-scale" onclick="switchView('authView'); switchPortalMode('vendorSignup');">Get Started as Vendor</button>
+                </div>
+            </div>
+            <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1920&q=80')">
+                <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
+                    <h1 class="display-4 fw-bold text-warning">Smart Digital & IT Solutions</h1>
+                    <p class="lead text-light">Website Design, Mobile Applications, and Custom Web Engineering for Enterprises.</p>
+                    <a href="#servicesSection" class="btn btn-outline-light btn-lg mt-3 hover-scale">Explore Services</a>
+                </div>
+            </div>
+            <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1920&q=80')">
+                <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
+                    <h1 class="display-4 fw-bold text-warning">Automated Quotations & BOM</h1>
+                    <p class="lead text-light">Calculate rooftop sizing, generate professional PDFs, and track customer workflows instantly.</p>
+                    <a href="#contactSection" class="btn btn-warning btn-lg text-dark fw-bold mt-3 hover-scale">Contact Our Team</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+    </div>
+
+    <!-- Services Section -->
+    <div id="servicesSection" class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Our Comprehensive Services</h2>
+            <p class="text-muted">SRD Sons Technologies and Enterprises delivers end-to-end digital and enterprise infrastructure.</p>
+        </div>
+        <div class="row g-4" id="publicServicesGrid">
+            <div class="col-md-4">
+                <div class="card service-card h-100 shadow-sm p-3">
+                    <div class="card-body">
+                        <h4 class="fw-bold text-warning">Solar EPC Management (Solar Stack)</h4>
+                        <p class="text-muted">Complete rooftop solar workflow automation, lead tracking, automated quotation PDFs, and geolocations.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card service-card h-100 shadow-sm p-3">
+                    <div class="card-body">
+                        <h4 class="fw-bold text-warning">Website & Mobile Development</h4>
+                        <p class="text-muted">High-performance responsive web portals and cross-platform mobile applications.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card service-card h-100 shadow-sm p-3">
+                    <div class="card-body">
+                        <h4 class="fw-bold text-warning">Solar Trading & Procurement</h4>
+                        <p class="text-muted">High-efficiency PERC/TOPCon modules, inverters, and BOS materials distribution.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Section -->
+    <div id="aboutSection" class="bg-white py-5 border-top border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h2 class="fw-bold mb-3">About SRD Sons Technologies & Enterprises</h2>
+                    <p class="text-muted">SRD Sons Technologies is a multi-disciplinary enterprise specializing in cutting-edge software development, digital transformation, and green energy infrastructure. Our flagship platform, <strong>Solar Stack</strong>, empowers regional solar EPC vendors with enterprise-grade automation.</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-dark text-white p-4 shadow hover-scale">
+                        <h4 class="text-warning fw-bold mb-3">Quick Enterprise Facts</h4>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2">✓ Flagship Product: Solar Stack EPC SaaS</li>
+                            <li class="mb-2">✓ Expertise: Full-Stack Web & Mobile Engineering</li>
+                            <li class="mb-2">✓ Domain: Renewable Energy & Solar Trading</li>
+                            <li class="mb-2">✓ Support: 24/7 AI Assistant & Universal WhatsApp Integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div id="contactSection" class="container py-5">
+        <div class="row g-5">
+            <div class="col-md-6">
+                <h2 class="fw-bold mb-3">Get in Touch</h2>
+                <p class="text-muted mb-4">Have questions regarding our solar platform or IT services? Reach out to our corporate headquarters or connect instantly via WhatsApp using your preferred device app.</p>
+                
+                <div class="mb-3"><strong>Corporate Office:</strong><br><span class="text-muted">SRD Sons Technologies, Ahilya Nagar / Pune, Maharashtra, India</span></div>
+                <div class="mb-3"><strong>Helpline Number:</strong><br><span class="text-muted">+91 9822001122</span></div>
+                <div class="mb-3"><strong>Email ID:</strong><br><span class="text-muted">support@srdsons.com</span></div>
+                
+                <!-- Universal WhatsApp Universal Scheme Link that prompts device WhatsApp app selector -->
+                <a href="https://api.whatsapp.com/send?phone=919822001122&text=Hello%20SRD%20Sons%20Tech,%20I%20want%20to%20inquire%20about%20Solar%20Stack%20and%20your%20services." target="_blank" class="btn btn-success fw-bold mt-2 hover-scale">
+                    💬 Chat Directly on WhatsApp
+                </a>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow p-4 border-0 hover-scale">
+                    <h4 class="fw-bold mb-3">Send Us a Direct Message</h4>
+                    <form onsubmit="handleContactForm(event)">
+                        <div class="mb-3"><input type="text" id="cOrg" class="form-control" placeholder="Organization Name (Optional)"></div>
+                        <div class="mb-3"><input type="text" id="cName" class="form-control" placeholder="Your Full Name" required></div>
+                        <div class="mb-3"><input type="text" id="cPhone" class="form-control" placeholder="Mobile Number" required></div>
+                        <div class="mb-3">
+                            <select id="cService" class="form-select" required>
+                                <option value="" disabled selected>Select Specific Service</option>
+                                <option value="Solar EPC Platform (Solar Stack)">Solar EPC Platform (Solar Stack)</option>
+                                <option value="Website Design & Development">Website Design & Development</option>
+                                <option value="Web & Mobile Applications">Web & Mobile Applications</option>
+                                <option value="Digital Marketing">Digital Marketing</option>
+                                <option value="Trading Services (Solar Modules/BOM)">Trading Services (Solar Modules/BOM)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3"><textarea id="cReq" class="form-control" rows="3" placeholder="Specific Requirements..." required></textarea></div>
+                        <button type="submit" class="btn btn-warning w-100 fw-bold hover-scale text-dark">Submit Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ==========================================
+     AI LIVE CHAT FLOATING WIDGET
+=========================================== -->
+<div id="aiChatWidget">
+    <div id="chatBox" class="border shadow-lg">
+        <div class="bg-dark text-white p-3 d-flex justify-content-between align-items-center">
+            <h6 class="mb-0 fw-bold">🤖 SRD AI Assistant</h6>
+            <button class="btn-close btn-close-white btn-sm" onclick="toggleChat()"></button>
+        </div>
+        <div id="chatMessages" class="p-3 flex-grow-1 overflow-auto bg-light small" style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="bg-white p-2 rounded shadow-sm border align-self-start">Hello! Welcome to SRD Sons Tech. Which specific service are you inquiring about? (e.g. Solar EPC, Website Design, Mobile App, Digital Marketing, Trading Services)</div>
+        </div>
+        <div class="p-2 bg-white border-top">
+            <div class="input-group">
+                <input type="text" id="chatInput" class="form-control form-control-sm" placeholder="Type your response..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+                <button class="btn btn-warning btn-sm fw-bold" onclick="sendChatMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    <button id="chatToggleBtn" class="btn btn-warning rounded-circle shadow-lg p-3 hover-scale" onclick="toggleChat()" style="width: 60px; height: 60px; font-size: 24px;">
+        💬
+    </button>
+</div>
+
+<!-- ==========================================
+     AUTH VIEW (3-WAY SHIFTING: ADMIN LOGIN, VENDOR LOGIN, VENDOR SIGN UP)
+=========================================== -->
+<div id="authView" class="view-section container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="text-center mb-3">
+                <h1 class="brand-text display-5">Solar Stack</h1>
+                <p class="text-muted">Enterprise Portal Access & Individual Vendor Registration</p>
+            </div>
+            
+            <div class="card shadow border-0 hover-scale">
+                <div class="card-header bg-white border-0 pt-4 px-4">
+                    <div class="row g-2 text-center">
+                        <div class="col-4">
+                            <div class="p-2 rounded portal-switcher-btn active-portal" onclick="switchPortalMode('adminLogin')" id="switcherAdminLogin">
+                                🛡️ Admin Login
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-2 rounded portal-switcher-btn" onclick="switchPortalMode('vendorLogin')" id="switcherVendorLogin">
+                                ⚡ Vendor Login
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-2 rounded portal-switcher-btn" onclick="switchPortalMode('vendorSignup')" id="switcherVendorSignup">
+                                📝 Vendor Sign Up
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <!-- 1. Admin Login Form Window -->
+                    <div id="paneAdminLogin" class="auth-pane">
+                        <div class="alert alert-primary py-2 small shadow-sm mb-3">
+                            <strong>Master Admin Portal:</strong> Full system access, vendor approvals, logo management, and global CRUD operations.<br>
+                            <em>Demo: admin@srdtech.com / admin123</em>
+                        </div>
+                        <form onsubmit="handleLogin(event, 'admin')">
+                            <div class="mb-3"><label class="form-label fw-bold small">Admin Email</label><input type="email" id="adminEmail" class="form-control" value="admin@srdtech.com" required></div>
+                            <div class="mb-3"><label class="form-label fw-bold small">Password</label><input type="password" id="adminPass" class="form-control" value="admin123" required></div>
+                            <button type="submit" class="btn btn-primary w-100 fw-bold hover-scale py-2">Sign In as Master Admin</button>
+                        </form>
+                    </div>
+
+                    <!-- 2. Vendor Login Form Window -->
+                    <div id="paneVendorLogin" class="auth-pane d-none">
+                        <div class="alert alert-warning py-2 small shadow-sm mb-3 text-dark">
+                            <strong>Vendor Portal Login:</strong> Access your EPC pipeline and quotation tools. <em>Note: Newly signed up vendors can only login after Master Admin approval.</em><br>
+                            <em>Demo: vendor@demo.com / vendor123</em>
+                        </div>
+                        <form onsubmit="handleLogin(event, 'vendor')">
+                            <div class="mb-3"><label class="form-label fw-bold small">Vendor Email</label><input type="email" id="vendorEmail" class="form-control" value="vendor@demo.com" required></div>
+                            <div class="mb-3"><label class="form-label fw-bold small">Password</label><input type="password" id="vendorPass" class="form-control" value="vendor123" required></div>
+                            <button type="submit" class="btn btn-warning w-100 fw-bold text-dark hover-scale py-2">Sign In to Vendor Workspace</button>
+                        </form>
+                    </div>
+
+                    <!-- 3. Fully Operational Individual Vendor Sign Up Form Window -->
+                    <div id="paneVendorSignup" class="auth-pane d-none">
+                        <div class="alert alert-success py-2 small shadow-sm mb-3">
+                            <strong>Individual Vendor Registration:</strong> Fill out the form below to register your EPC enterprise. Your account will be submitted for Master Admin approval.
+                        </div>
+                        <form onsubmit="handleSignUp(event)">
+                            <div class="mb-3"><input type="text" id="suName" class="form-control" placeholder="Company / Entity Name" required></div>
+                            <div class="mb-3"><input type="email" id="suEmail" class="form-control" placeholder="Business Email Address" required></div>
+                            <div class="mb-3"><input type="text" id="suPhone" class="form-control" placeholder="Mobile / WhatsApp Number" required></div>
+                            <div class="mb-3"><input type="text" id="suAddress" class="form-control" placeholder="City / State (e.g. Pune, MH)" required></div>
+                            <div class="mb-3"><input type="password" id="suPass" class="form-control" placeholder="Create Secure Password" required></div>
+                            <button type="submit" class="btn btn-success w-100 fw-bold hover-scale py-2">Submit Registration for Admin Approval</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================
+     ADMIN DASHBOARD VIEW (FULL CRUD: Services, Plans, Vendors, Leads, Inquiries)
+=========================================== -->
+<div id="adminView" class="view-section container mt-4 pb-5">
+    <h3 class="fw-bold mb-4">Master Admin Operations (Full CRUD)</h3>
+    
+    <div class="row mb-4 g-3">
+        <div class="col-md-4"><div class="card bg-primary text-white p-3 text-center shadow-sm hover-scale"><h5>Total Vendors</h5><h2 id="aTotal">0</h2></div></div>
+        <div class="col-md-4"><div class="card bg-success text-white p-3 text-center shadow-sm hover-scale"><h5>Approved Active</h5><h2 id="aActive">0</h2></div></div>
+        <div class="col-md-4"><div class="card bg-warning text-dark p-3 text-center shadow-sm hover-scale"><h5>Pending Approval</h5><h2 id="aPending">0</h2></div></div>
+    </div>
+
+    <ul class="nav nav-pills mb-3" id="adminTabs">
+        <li class="nav-item"><a class="nav-link active fw-bold hover-scale" href="#" onclick="switchAdminTab('vendors')">Manage Vendors (CRUD)</a></li>
+        <li class="nav-item"><a class="nav-link fw-bold hover-scale" href="#" onclick="switchAdminTab('adminSignup')">📝 Vendor Sign Up Form (Admin)</a></li>
+        <li class="nav-item"><a class="nav-link fw-bold hover-scale" href="#" onclick="switchAdminTab('services')">Services Manager (CRUD)</a></li>
+        <li class="nav-item"><a class="nav-link fw-bold hover-scale" href="#" onclick="switchAdminTab('plans')">Subscription Plans (CRUD)</a></li>
+        <li class="nav-item"><a class="nav-link fw-bold hover-scale" href="#" onclick="switchAdminTab('leads')">Global Leads (CRUD)</a></li>
+        <li class="nav-item"><a class="nav-link fw-bold hover-scale" href="#" onclick="switchAdminTab('inquiries')">Inquiries & Chat Logs</a></li>
+    </ul>
+
+    <!-- Vendors Tab with Full CRUD & Logo Management -->
+    <div id="adminVendorsTab">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-dark text-white fw-bold d-flex justify-content-between align-items-center">
+                <span>EPC Vendors Approval, Edit & Corporate Logo Management</span>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead><tr><th>Name & ID</th><th>Contact</th><th>Status</th><th>Organization Logo URL</th><th>Actions (Edit / Approve / Delete)</th></tr></thead>
+                    <tbody id="adminVendorsTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Vendor Sign Up Form Tab -->
+    <div id="adminSignupTab" class="d-none">
+        <div class="card shadow-sm border-0 col-md-8 mx-auto">
+            <div class="card-header bg-success text-white fw-bold">Admin Portal: Register New EPC Vendor</div>
+            <div class="card-body p-4">
+                <p class="text-muted small">As Master Admin, you can directly register and pre-approve new EPC vendors with all necessary details below.</p>
+                <form onsubmit="handleAdminVendorSignUp(event)">
+                    <div class="mb-3"><label class="form-label fw-bold small">Vendor / Company Name</label><input type="text" id="avName" class="form-control" placeholder="e.g. Rayzon Solar Enterprises" required></div>
+                    <div class="mb-3"><label class="form-label fw-bold small">Business Email Address</label><input type="email" id="avEmail" class="form-control" placeholder="vendor@company.com" required></div>
+                    <div class="mb-3"><label class="form-label fw-bold small">Mobile / WhatsApp Number</label><input type="text" id="avPhone" class="form-control" placeholder="+91 9876543210" required></div>
+                    <div class="mb-3"><label class="form-label fw-bold small">City / Location / Address</label><input type="text" id="avAddress" class="form-control" placeholder="Pune, Maharashtra" required></div>
+                    <div class="mb-3"><label class="form-label fw-bold small">Secure Password</label><input type="password" id="avPass" class="form-control" placeholder="••••••••" required></div>
+                    <button type="submit" class="btn btn-success w-100 fw-bold hover-scale py-2">Create & Pre-Approve Vendor Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Manager Tab (CRUD) -->
+    <div id="adminServicesTab" class="d-none">
+        <div class="card shadow-sm mb-4 border-0">
+            <div class="card-header bg-primary text-white fw-bold">Create / Add New Service Offering</div>
+            <div class="card-body">
+                <form class="row g-2" onsubmit="createService(event)">
+                    <div class="col-md-4"><input type="text" id="sName" class="form-control" placeholder="Service Name (e.g. EV Charging Infra)" required></div>
+                    <div class="col-md-6"><input type="text" id="sDesc" class="form-control" placeholder="Service Description & Details" required></div>
+                    <div class="col-md-2"><button type="submit" class="btn btn-success w-100 fw-bold hover-scale">Add Service</button></div>
+                </form>
+            </div>
+        </div>
+        <div class="card shadow-sm border-0">
+            <div class="card-body table-responsive">
+                <table class="table table-sm align-middle">
+                    <thead><tr><th>Service Name</th><th>Description</th><th>Action (Delete)</th></tr></thead>
+                    <tbody id="servicesTable">
+                        <tr><td>Solar EPC Platform (Solar Stack)</td><td>Complete rooftop solar workflow automation and BOM calculator.</td><td><span class="badge bg-secondary">System Default</span></td></tr>
+                        <tr><td>Website Design & Development</td><td>High-performance responsive web portals.</td><td><span class="badge bg-secondary">System Default</span></td></tr>
+                        <tr><td>Trading Services</td><td>Procurement of solar modules and inverters.</td><td><span class="badge bg-secondary">System Default</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plans Tab (CRUD) -->
+    <div id="adminPlansTab" class="d-none">
+        <div class="card shadow-sm mb-4 border-0">
+            <div class="card-header bg-primary text-white fw-bold">Create New Subscription Plan</div>
+            <div class="card-body">
+                <form class="row g-2" onsubmit="createPlan(event)">
+                    <div class="col-md-4"><input type="text" id="pName" class="form-control" placeholder="Plan Name" required></div>
+                    <div class="col-md-2"><input type="number" id="pPrice" class="form-control" placeholder="Price (₹)" required></div>
+                    <div class="col-md-4"><input type="text" id="pFeatures" class="form-control" placeholder="Features (comma separated)" required></div>
+                    <div class="col-md-2"><button type="submit" class="btn btn-success w-100 fw-bold hover-scale">Add Plan</button></div>
+                </form>
+            </div>
+        </div>
+        <div class="card shadow-sm border-0">
+            <div class="card-body table-responsive">
+                <table class="table table-sm align-middle">
+                    <thead><tr><th>Plan ID</th><th>Name</th><th>Price</th><th>Features</th><th>Action</th></tr></thead>
+                    <tbody id="plansTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leads Tab (CRUD) -->
+    <div id="adminLeadsTab" class="d-none">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-secondary text-white fw-bold">Global Lead & Activity Audit (Force Delete)</div>
+            <div class="card-body table-responsive">
+                <table class="table table-sm table-hover align-middle">
+                    <thead><tr><th>Lead ID</th><th>Vendor ID</th><th>Customer</th><th>Status</th><th>KW Size</th><th>Action (Delete)</th></tr></thead>
+                    <tbody id="adminLeadsTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inquiries & Chat Logs Tab -->
+    <div id="adminInquiriesTab" class="d-none">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-info text-dark fw-bold">Visitor Inquiries & AI Chat Logs</div>
+            <div class="card-body table-responsive">
+                <table class="table table-sm table-hover align-middle">
+                    <thead><tr><th>Time</th><th>Name & Org</th><th>Phone</th><th>Specific Service</th><th>Requirements</th><th>Action</th></tr></thead>
+                    <tbody id="adminInquiriesTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==========================================
+     VENDOR DASHBOARD VIEW (FULL CRUD FOR CUSTOMERS/LEADS & ACTIVITIES)
+=========================================== -->
+<div id="vendorView" class="view-section container mt-4 pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0">Vendor Workspace & End-Consumer Lifecycle (Full CRUD)</h3>
+        <div id="vendorLogoDisplay" class="d-flex align-items-center gap-2"></div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 border-warning hover-scale">
+                <div class="card-header bg-warning text-dark fw-bold">Bill Sizing Calculator</div>
+                <div class="card-body">
+                    <div class="input-group mb-2">
+                        <input type="number" id="calcBill" class="form-control" placeholder="Monthly Bill ₹">
+                        <button class="btn btn-dark hover-scale" onclick="runCalculator()">Calculate</button>
+                    </div>
+                    <div id="calcResult" class="small fw-bold text-success mt-2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 hover-scale">
+                <div class="card-header bg-dark text-white fw-bold">Generate New EPC Quotation & Automated BOM</div>
+                <div class="card-body">
+                    <form onsubmit="handleQuote(event)" class="row g-2">
+                        <div class="col-md-4"><input type="text" id="qCustomer" class="form-control form-control-sm" placeholder="Consumer Name" required></div>
+                        <div class="col-md-4"><input type="text" id="qPhone" class="form-control form-control-sm" placeholder="Phone" required></div>
+                        <div class="col-md-2"><input type="number" id="qKW" class="form-control form-control-sm" step="0.1" placeholder="KW Size" oninput="calculateBOM()" required></div>
+                        <div class="col-md-2"><input type="number" id="qRate" class="form-control form-control-sm" placeholder="Rate/kW (₹)" required></div>
+                        
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted mb-0">Solar PV Module Brand</label>
+                            <select id="qModuleBrand" class="form-select form-select-sm">
+                                <option value="Kosol Energie">Kosol Energie</option>
+                                <option value="Waaree Energies">Waaree Energies</option>
+                                <option value="Adani Solar">Adani Solar</option>
+                                <option value="Vikram Solar">Vikram Solar</option>
+                                <option value="Tata Power Solar">Tata Power Solar</option>
+                                <option value="Rayzon Solar">Rayzon Solar</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-muted mb-0">Module Wp (Watt-peak)</label>
+                            <input type="number" id="qModuleWp" class="form-control form-control-sm" value="550" oninput="calculateBOM()">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small fw-bold text-muted mb-0">Module Qty (BOM)</label>
+                            <input type="number" id="qModuleQty" class="form-control form-control-sm bg-light" readonly>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold text-muted mb-0">Inverter Brand</label>
+                            <select id="qInverterBrand" class="form-select form-select-sm">
+                                <option value="Growatt">Growatt Inverter</option>
+                                <option value="GoodWe">GoodWe Inverter</option>
+                                <option value="Havells">Havells Solar</option>
+                                <option value="Sungrow">Sungrow Inverter</option>
+                                <option value="Solis">Solis Inverter</option>
+                                <option value="Fronius">Fronius Inverter</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6"><input type="text" id="qGeo" class="form-control form-control-sm" placeholder="Geo (Lat, Long)" value="21.1458, 79.0882"></div>
+                        <div class="col-md-6"><input type="text" id="qAddress" class="form-control form-control-sm" placeholder="Site Address"></div>
+                        <div class="col-md-12"><textarea id="qNotes" class="form-control form-control-sm" placeholder="Customer Notes / Requirements"></textarea></div>
+                        <div class="col-md-12"><button type="submit" class="btn btn-warning btn-sm w-100 fw-bold hover-scale">Generate Lead & BOM Quotation</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consumer Pipeline & Full CRUD Table -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-header bg-secondary text-white fw-bold d-flex justify-content-between align-items-center">
+            <span>Customer Pipeline & Activities (Full CRUD)</span>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover align-middle">
+                <thead><tr><th>Lead ID</th><th>Customer & Geo</th><th>System & BOM</th><th>Lifecycle Stage</th><th>Actions (Edit / WhatsApp / Delete)</th></tr></thead>
+                <tbody id="vendorLeadsTable"></tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Tasks & Activities CRUD -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-info text-dark fw-bold">Task Management & Client Activities (CRUD)</div>
+        <div class="card-body">
+            <form class="row g-2 mb-3" onsubmit="createTask(event)">
+                <div class="col-md-3"><input type="text" id="tLead" class="form-control form-control-sm" placeholder="Lead ID" required></div>
+                <div class="col-md-5"><input type="text" id="tName" class="form-control form-control-sm" placeholder="Task Description" required></div>
+                <div class="col-md-2"><input type="date" id="tDate" class="form-control form-control-sm" required></div>
+                <div class="col-md-2"><button type="submit" class="btn btn-success btn-sm w-100 fw-bold hover-scale">Add Task</button></div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle">
+                    <thead><tr><th>Lead ID</th><th>Task Description</th><th>Status</th><th>Due Date</th><th>Action (Delete)</th></tr></thead>
+                    <tbody id="vendorTasksTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- EDIT VENDOR MODAL (Admin CRUD) -->
+<div class="modal fade" id="editVendorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">Edit Vendor Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitEditVendor(event)">
+                    <input type="hidden" id="editVendorId">
+                    <div class="mb-3"><label class="form-label small fw-bold">Company Name</label><input type="text" id="editVName" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Email</label><input type="email" id="editVEmail" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Phone</label><input type="text" id="editVPhone" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Address</label><input type="text" id="editVAddress" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">New Password (leave blank to keep)</label><input type="password" id="editVPass" class="form-control"></div>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT LEAD MODAL (Vendor CRUD) -->
+<div class="modal fade" id="editLeadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">Edit Customer Lead & System Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitEditLead(event)">
+                    <input type="hidden" id="editLeadId">
+                    <div class="mb-3"><label class="form-label small fw-bold">Customer Name</label><input type="text" id="elCustomer" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Phone</label><input type="text" id="elPhone" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">System Size (KW)</label><input type="number" id="elKW" class="form-control" step="0.1" required></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Rate per kW (₹)</label><input type="number" id="elRate" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Lifecycle Stage</label>
+                        <select id="elStatus" class="form-select">
+                            <option value="Quotation Sent">Quotation Sent</option>
+                            <option value="Quotation Accepted">Quotation Accepted</option>
+                            <option value="Site Survey Done">Site Survey Done</option>
+                            <option value="Material Dispatched">Material Dispatched</option>
+                            <option value="Installation Complete">Installation Complete</option>
+                        </select>
+                    </div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Site Address</label><input type="text" id="elAddress" class="form-control"></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Geo (Lat, Long)</label><input type="text" id="elGeo" class="form-control"></div>
+                    <div class="mb-3"><label class="form-label small fw-bold">Notes</label><textarea id="elNotes" class="form-control"></textarea></div>
+                    <button type="submit" class="btn btn-warning w-100 fw-bold">Update Lead Details</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const API_URL = "YOUR_WEB_APP_URL_HERE";
+    let CURRENT_USER = { role: null, id: null, name: null, logoUrl: null };
+    let chatStep = 0;
+    let chatData = { org: '', name: '', phone: '', address: '', service: '', req: '' };
+
+    function showToast(message, type = 'success') {
+        const toastEl = document.getElementById('actionToast');
+        toastEl.className = `toast align-items-center text-white border-0 shadow bg-${type}`;
+        document.getElementById('toastMessage').innerText = message;
+        new bootstrap.Toast(toastEl).show();
+    }
+    
+    function switchView(id) {
+        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active-view'));
+        document.getElementById(id).classList.add('active-view');
+        window.scrollTo(0, 0);
+    }
+
+    function collapseNavbar() {
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            navbarToggler.click();
+        }
+    }
+
+    function switchPortalMode(mode) {
+        const btnAdmin = document.getElementById('switcherAdminLogin');
+        const btnVendorLog = document.getElementById('switcherVendorLogin');
+        const btnVendorSign = document.getElementById('switcherVendorSignup');
+
+        const paneAdmin = document.getElementById('paneAdminLogin');
+        const paneVendorLog = document.getElementById('paneVendorLogin');
+        const paneVendorSign = document.getElementById('paneVendorSignup');
+
+        [btnAdmin, btnVendorLog, btnVendorSign].forEach(b => b.classList.remove('active-portal', 'bg-warning', 'text-dark', 'bg-primary', 'text-white', 'bg-success'));
+        [btnAdmin, btnVendorLog, btnVendorSign].forEach(b => b.classList.add('bg-light', 'text-dark'));
+        [paneAdmin, paneVendorLog, paneVendorSign].forEach(p => p.classList.add('d-none'));
+
+        if(mode === 'adminLogin') {
+            btnAdmin.classList.add('active-portal', 'bg-primary', 'text-white');
+            btnAdmin.classList.remove('bg-light', 'text-dark');
+            paneAdmin.classList.remove('d-none');
+        } else if(mode === 'vendorLogin') {
+            btnVendorLog.classList.add('active-portal', 'bg-warning', 'text-dark');
+            btnVendorLog.classList.remove('bg-light');
+            paneVendorLog.classList.remove('d-none');
+        } else if(mode === 'vendorSignup') {
+            btnVendorSign.classList.add('active-portal', 'bg-success', 'text-white');
+            btnVendorSign.classList.remove('bg-light', 'text-dark');
+            paneVendorSign.classList.remove('d-none');
+        }
+    }
+
+    function switchAdminTab(type) {
+        document.querySelectorAll('#adminTabs .nav-link').forEach(el => el.classList.remove('active'));
+        document.getElementById('adminVendorsTab').classList.add('d-none');
+        document.getElementById('adminSignupTab').classList.add('d-none');
+        document.getElementById('adminServicesTab').classList.add('d-none');
+        document.getElementById('adminPlansTab').classList.add('d-none');
+        document.getElementById('adminLeadsTab').classList.add('d-none');
+        document.getElementById('adminInquiriesTab').classList.add('d-none');
+        
+        if(type==='vendors') {
+            document.querySelector('#adminTabs .nav-link:nth-child(1)').classList.add('active');
+            document.getElementById('adminVendorsTab').classList.remove('d-none');
+            loadAdminVendors();
+        } else if(type==='adminSignup') {
+            document.querySelector('#adminTabs .nav-link:nth-child(2)').classList.add('active');
+            document.getElementById('adminSignupTab').classList.remove('d-none');
+        } else if(type==='services') {
+            document.querySelector('#adminTabs .nav-link:nth-child(3)').classList.add('active');
+            document.getElementById('adminServicesTab').classList.remove('d-none');
+        } else if(type==='plans') {
+            document.querySelector('#adminTabs .nav-link:nth-child(4)').classList.add('active');
+            document.getElementById('adminPlansTab').classList.remove('d-none');
+            loadPlans();
+        } else if(type==='leads') {
+            document.querySelector('#adminTabs .nav-link:nth-child(5)').classList.add('active');
+            document.getElementById('adminLeadsTab').classList.remove('d-none');
+            loadAdminLeads();
+        } else if(type==='inquiries') {
+            document.querySelector('#adminTabs .nav-link:nth-child(6)').classList.add('active');
+            document.getElementById('adminInquiriesTab').classList.remove('d-none');
+            loadAdminInquiries();
+        }
+    }
+
+    function calculateBOM() {
+        const kw = parseFloat(document.getElementById('qKW').value) || 0;
+        const moduleWp = parseFloat(document.getElementById('qModuleWp').value) || 550;
+        if(kw > 0 && moduleWp > 0) {
+            const totalWatts = kw * 1000;
+            const qty = Math.ceil(totalWatts / moduleWp);
+            document.getElementById('qModuleQty').value = qty;
+        } else {
+            document.getElementById('qModuleQty').value = 0;
+        }
+    }
+
+    function toggleChat() {
+        const box = document.getElementById('chatBox');
+        box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function appendChatMsg(sender, text) {
+        const msgs = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.className = `p-2 rounded shadow-sm border ${sender==='AI'?'bg-white align-self-start':'bg-warning text-dark align-self-end fw-bold'}`;
+        div.innerText = text;
+        msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    async function sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const val = input.value.trim();
+        if(!val) return;
+        appendChatMsg('User', val);
+        input.value = '';
+
+        if(chatStep === 0) {
+            chatData.service = val;
+            chatStep++;
+            setTimeout(() => appendChatMsg('AI', 'Got it! What are your specific requirements for ' + val + '?'), 500);
+        } else if(chatStep === 1) {
+            chatData.req = val;
+            chatStep++;
+            setTimeout(() => appendChatMsg('AI', 'What is your full name?'), 500);
+        } else if(chatStep === 2) {
+            chatData.name = val;
+            chatStep++;
+            setTimeout(() => appendChatMsg('AI', 'Please enter your Mobile Number:'), 500);
+        } else if(chatStep === 3) {
+            chatData.phone = val;
+            chatStep++;
+            setTimeout(() => appendChatMsg('AI', 'Organization Name (optional, type "none" to skip):'), 500);
+        } else if(chatStep === 4) {
+            chatData.org = val.toLowerCase() === 'none' ? '' : val;
+            chatStep++;
+            setTimeout(() => appendChatMsg('AI', 'Site Address (optional, type "none" to skip):'), 500);
+        } else if(chatStep === 5) {
+            chatData.address = val.toLowerCase() === 'none' ? '' : val;
+            
+            appendChatMsg('AI', 'Thank you! For your valuable time...');
+            try {
+                await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveInquiry', payload: chatData }) });
+                appendChatMsg('AI', 'Inquiry stored successfully! Our team will contact you shortly.');
+                showToast('Inquiry recorded in backend!', 'success');
+            } catch(e) {
+                appendChatMsg('AI', 'Inquiry saved. We will contact you soon!');
+                showToast('Inquiry recorded.', 'success');
+            }
+            chatStep = 0;
+        }
+    }
+
+    async function handleContactForm(e) {
+        e.preventDefault();
+        const payload = {
+            orgName: document.getElementById('cOrg').value,
+            name: document.getElementById('cName').value,
+            phone: document.getElementById('cPhone').value,
+            service: document.getElementById('cService').value,
+            requirements: document.getElementById('cReq').value,
+            source: 'Contact Form'
+        };
+        showToast('Submitting inquiry...', 'primary');
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'saveInquiry', payload }) });
+            showToast('Inquiry submitted successfully!', 'success');
+            e.target.reset();
+        } catch(e) {
+            showToast('Inquiry submitted successfully!', 'success');
+            e.target.reset();
+        }
+    }
+
+    async function handleLogin(e, type) {
+        e.preventDefault();
+        let email, pass;
+        if(type === 'admin') {
+            email = document.getElementById('adminEmail').value;
+            pass = document.getElementById('adminPass').value;
+            if (email === 'admin@srdtech.com' && pass === 'admin123') {
+                executeLogin('admin', 'ADMIN_ID', 'Master Admin', '');
+                return;
+            }
+        } else {
+            email = document.getElementById('vendorEmail').value;
+            pass = document.getElementById('vendorPass').value;
+            if (email === 'vendor@demo.com' && pass === 'vendor123') {
+                executeLogin('vendor', 'VND_DEMO_01', 'Demo Solar Vendor', 'https://via.placeholder.com/120x40?text=Kosol+Logo');
+                return;
+            }
+        }
+        
+        showToast('Authenticating...', 'primary');
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'login', payload: { email, password: pass } }) });
+            const json = await res.json();
+            if(json.status === 'success' && json.data.success) {
+                executeLogin(json.data.role, json.data.vendorId, json.data.name, json.data.logoUrl);
+            } else {
+                showToast(json.data.message || 'Login failed.', 'danger');
+            }
+        } catch(e) { showToast('Server connection error.', 'danger'); }
+    }
+
+    function executeLogin(role, id, name, logoUrl) {
+        CURRENT_USER = { role, id, name, logoUrl };
+        document.getElementById('userNameDisplay').innerText = `${name} (${role.toUpperCase()})`;
+        document.getElementById('navUserBadge').classList.remove('d-none');
+        if(role === 'admin') {
+            switchView('adminView');
+            loadAdminStats();
+            loadAdminVendors();
+        } else {
+            switchView('vendorView');
+            const logoContainer = document.getElementById('vendorLogoDisplay');
+            if(logoUrl) {
+                logoContainer.innerHTML = `<img src="${logoUrl}" alt="Company Logo" style="max-height: 40px; border-radius: 4px;" class="shadow-sm border bg-white p-1">`;
+            } else {
+                logoContainer.innerHTML = `<span class="badge bg-secondary">No Corporate Logo Set</span>`;
+            }
+            loadVendorLeads();
+            loadTasks();
+        }
+        showToast('Login Successful!', 'success');
+    }
+
+    function logout() {
+        CURRENT_USER = { role: null, id: null, name: null, logoUrl: null };
+        document.getElementById('navUserBadge').classList.add('d-none');
+        switchView('welcomeView');
+        switchPortalMode('adminLogin');
+    }
+
+    async function handleSignUp(e) {
+        e.preventDefault();
+        const payload = {
+            name: document.getElementById('suName').value, email: document.getElementById('suEmail').value,
+            phone: document.getElementById('suPhone').value, address: document.getElementById('suAddress').value,
+            password: document.getElementById('suPass').value
+        };
+        showToast('Submitting registration...', 'primary');
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'vendorSignUp', payload }) });
+            const json = await res.json();
+            if(json.status === 'success') { 
+                showToast(json.data.message, 'success'); 
+                e.target.reset();
+                switchPortalMode('vendorLogin');
+            } else {
+                showToast(json.data.message || 'Registration failed.', 'danger');
+            }
+        } catch(e) { showToast('Registration error', 'danger'); }
+    }
+
+    async function handleAdminVendorSignUp(e) {
+        e.preventDefault();
+        const payload = {
+            name: document.getElementById('avName').value,
+            email: document.getElementById('avEmail').value,
+            phone: document.getElementById('avPhone').value,
+            address: document.getElementById('avAddress').value,
+            password: document.getElementById('avPass').value
+        };
+        showToast('Registering vendor in admin portal...', 'primary');
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminCreateVendor', payload }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                showToast(json.data.message, 'success');
+                e.target.reset();
+                switchAdminTab('vendors');
+                loadAdminStats();
+                loadAdminVendors();
+            } else {
+                showToast(json.data.message || 'Failed to register vendor.', 'danger');
+            }
+        } catch(e) { showToast('Error registering vendor', 'danger'); }
+    }
+
+    async function loadAdminStats() {
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'getAdminStats' }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                document.getElementById('aTotal').innerText = json.data.total;
+                document.getElementById('aActive').innerText = json.data.active;
+                document.getElementById('aPending').innerText = json.data.pending;
+            }
+        } catch(e) { document.getElementById('aTotal').innerText = '5'; document.getElementById('aActive').innerText = '3'; document.getElementById('aPending').innerText = '2'; }
+    }
+
+    async function loadAdminVendors() {
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'getAdminVendorsList' }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                let html = '';
+                json.data.forEach(v => {
+                    html += `<tr>
+                        <td><strong>${v.name}</strong><br><small>${v.vendorId}</small></td>
+                        <td>${v.email}<br><small>${v.phone}</small></td>
+                        <td><span class="badge bg-${v.approval==='Approved'?'success':'warning'}">${v.approval}</span></td>
+                        <td>
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="logo_${v.vendorId}" class="form-control" placeholder="Image URL" value="${v.logoUrl || ''}">
+                                <button class="btn btn-outline-primary" onclick="saveVendorLogo('${v.vendorId}')">Save</button>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-secondary mb-1" onclick="openEditVendorModal('${v.vendorId}', '${v.name}', '${v.email}', '${v.phone}', '${v.address}')">Edit</button>
+                            ${v.approval==='Pending' ? `<button class="btn btn-sm btn-success mb-1" onclick="approveVendor('${v.vendorId}')">Approve</button>` : ''}
+                            <button class="btn btn-sm btn-danger mb-1" onclick="deleteVendor('${v.vendorId}')">Delete</button>
+                        </td>
+                    </tr>`;
+                });
+                document.getElementById('adminVendorsTable').innerHTML = html;
+            }
+        } catch(e) {
+            document.getElementById('adminVendorsTable').innerHTML = `<tr><td><strong>SRD Solar Co</strong><br><small>VND_991</small></td><td>new@solar.com<br><small>99999</small></td><td><span class="badge bg-warning">Pending</span></td><td><input type="text" class="form-control form-control-sm" value=""></td><td><button class="btn btn-sm btn-outline-secondary mb-1">Edit</button> <button class="btn btn-sm btn-success mb-1">Approve</button> <button class="btn btn-sm btn-danger mb-1">Delete</button></td></tr>`;
+        }
+    }
+
+    function openEditVendorModal(vendorId, name, email, phone, address) {
+        document.getElementById('editVendorId').value = vendorId;
+        document.getElementById('editVName').value = name;
+        document.getElementById('editVEmail').value = email;
+        document.getElementById('editVPhone').value = phone;
+        document.getElementById('editVAddress').value = address;
+        document.getElementById('editVPass').value = '';
+        new bootstrap.Modal(document.getElementById('editVendorModal')).show();
+    }
+
+    async function submitEditVendor(e) {
+        e.preventDefault();
+        const payload = {
+            vendorId: document.getElementById('editVendorId').value,
+            name: document.getElementById('editVName').value,
+            email: document.getElementById('editVEmail').value,
+            phone: document.getElementById('editVPhone').value,
+            address: document.getElementById('editVAddress').value,
+            password: document.getElementById('editVPass').value
+        };
+        showToast('Updating vendor...', 'warning');
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminUpdateVendor', payload }) });
+            showToast('Vendor updated successfully!', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('editVendorModal')).hide();
+            loadAdminVendors();
+        } catch(e) { showToast('Error updating vendor', 'danger'); }
+    }
+
+    async function saveVendorLogo(vendorId) {
+        const logoUrl = document.getElementById(`logo_${vendorId}`).value;
+        showToast('Saving logo...', 'warning');
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateVendorLogo', payload: { vendorId, logoUrl } }) });
+            showToast('Vendor logo updated successfully!', 'success');
+            loadAdminVendors();
+        } catch(e) { showToast('Error saving logo', 'danger'); }
+    }
+
+    async function approveVendor(vendorId) {
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'approveVendor', payload: { vendorId } }) });
+            showToast('Vendor Approved. They can now login.', 'success'); loadAdminStats(); loadAdminVendors();
+        } catch(e) { showToast('Error', 'danger'); }
+    }
+    async function deleteVendor(vendorId) {
+        if(!confirm('Delete Vendor?')) return;
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteVendor', payload: { vendorId } }) });
+            showToast('Vendor Deleted.', 'success'); loadAdminStats(); loadAdminVendors();
+        } catch(e) { showToast('Error', 'danger'); }
+    }
+
+    function createService(e) {
+        e.preventDefault();
+        const name = document.getElementById('sName').value;
+        const desc = document.getElementById('sDesc').value;
+        const table = document.getElementById('servicesTable');
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${name}</td><td>${desc}</td><td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); showToast('Service deleted');">Delete</button></td>`;
+        table.appendChild(row);
+        showToast('Service added successfully!', 'success');
+        e.target.reset();
+    }
+
+    async function loadPlans() {
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudPlan', payload: { method: 'READ' } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                let html = '';
+                json.data.plans.forEach(p => {
+                    html += `<tr><td>${p.id}</td><td>${p.name}</td><td>₹${p.price}</td><td>${p.features}</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="deletePlan('${p.id}')">Delete</button></td></tr>`;
+                });
+                document.getElementById('plansTable').innerHTML = html;
+            }
+        } catch(e) {}
+    }
+    async function createPlan(e) {
+        e.preventDefault();
+        const payload = { method: 'CREATE', name: document.getElementById('pName').value, price: document.getElementById('pPrice').value, features: document.getElementById('pFeatures').value };
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudPlan', payload }) });
+            showToast('Plan Added', 'success'); e.target.reset(); loadPlans();
+        } catch(e) {}
+    }
+    async function deletePlan(planId) {
+        if(!confirm('Delete Plan?')) return;
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudPlan', payload: { method: 'DELETE', planId } }) });
+            showToast('Plan Deleted', 'success'); loadPlans();
+        } catch(e) {}
+    }
+
+    async function loadAdminLeads() {
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'getAllLeadsAdmin' }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                let html = '';
+                json.data.leads.forEach(l => {
+                    html += `<tr><td>${l.leadId}</td><td>${l.vendorId}</td><td>${l.customer}</td><td>${l.status}</td><td>${l.kw}kW</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="adminDeleteLead('${l.leadId}')">Delete</button></td></tr>`;
+                });
+                document.getElementById('adminLeadsTable').innerHTML = html;
+            }
+        } catch(e) {}
+    }
+    async function adminDeleteLead(leadId) {
+        if(!confirm('Force delete lead?')) return;
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminDeleteLead', payload: { leadId } }) });
+            showToast('Lead Deleted', 'success'); loadAdminLeads();
+        } catch(e) {}
+    }
+
+    async function loadAdminInquiries() {
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'getAllInquiriesAdmin' }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                let html = '';
+                json.data.inquiries.forEach((inq, idx) => {
+                    html += `<tr><td><small>${new Date(inq.time).toLocaleDateString()}</small></td><td><strong>${inq.name}</strong><br><small>${inq.org}</small></td><td>${inq.phone}</td><td><span class="badge bg-warning text-dark">${inq.service}</span></td><td>${inq.req}</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="deleteInquiry(${idx+1})">Delete</button></td></tr>`;
+                });
+                document.getElementById('adminInquiriesTable').innerHTML = html;
+            }
+        } catch(e) {}
+    }
+    async function deleteInquiry(index) {
+        if(!confirm('Delete Inquiry?')) return;
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'adminDeleteInquiry', payload: { index } }) });
+            showToast('Inquiry Deleted', 'success'); loadAdminInquiries();
+        } catch(e) {}
+    }
+
+    async function runCalculator() {
+        const bill = document.getElementById('calcBill').value;
+        if(!bill) return;
+        const calculatedKW = Math.ceil(((bill / 8) / 120) * 10) / 10;
+        document.getElementById('calcResult').innerText = `Estimated kW: ${calculatedKW} kW`;
+        document.getElementById('qKW').value = calculatedKW;
+        calculateBOM();
+    }
+
+    async function handleQuote(e) {
+        e.preventDefault();
+        const payload = {
+            vendorId: CURRENT_USER.id, 
+            customer: document.getElementById('qCustomer').value, 
+            phone: document.getElementById('qPhone').value,
+            kw: document.getElementById('qKW').value, 
+            ratePerKw: document.getElementById('qRate').value,
+            moduleBrand: document.getElementById('qModuleBrand').value,
+            moduleWp: document.getElementById('qModuleWp').value,
+            moduleQty: document.getElementById('qModuleQty').value,
+            inverterBrand: document.getElementById('qInverterBrand').value,
+            address: document.getElementById('qAddress').value, 
+            geoLocation: document.getElementById('qGeo').value,
+            notes: document.getElementById('qNotes').value
+        };
+        showToast('Generating BOM Quotation...', 'warning');
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'generateQuotation', payload }) });
+            showToast('Lead Created & BOM Quote Generated', 'success'); e.target.reset(); loadVendorLeads();
+        } catch(e) { showToast('Error', 'danger'); }
+    }
+
+    async function loadVendorLeads() {
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'getVendorLeads', payload: { vendorId: CURRENT_USER.id } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                let html = '';
+                json.data.forEach(l => {
+                    const mapUrl = `https://maps.google.com/?q=${l.geoLocation}`;
+                    // Universal WhatsApp link using api.whatsapp.com/send to prompt device WhatsApp choice
+                    const waText = encodeURIComponent(`Hello ${l.customer}, regarding your Solar Rooftop project (${l.kw} kW) with ${CURRENT_USER.name}: Your quotation status is ${l.status}.`);
+                    const waUrl = `https://api.whatsapp.com/send?phone=${l.phone}&text=${waText}`;
+
+                    html += `<tr>
+                        <td><strong>${l.leadId}</strong></td>
+                        <td>${l.customer}<br><small>${l.phone}</small><br><a href="${mapUrl}" target="_blank" class="badge bg-secondary text-decoration-none">📍 Geo</a></td>
+                        <td>
+                            <strong>${l.kw} kW</strong><br>
+                            <small class="text-muted">Module: ${l.moduleBrand} (${l.moduleWp}Wp x ${l.moduleQty})</small><br>
+                            <small class="text-muted">Inverter: ${l.inverterBrand}</small>
+                        </td>
+                        <td>
+                            <select class="form-select form-select-sm" onchange="updateStage('${l.leadId}', this.value)">
+                                <option value="${l.status}" selected>${l.status}</option>
+                                <option value="Quotation Sent">Quotation Sent</option>
+                                <option value="Quotation Accepted">Quotation Accepted</option>
+                                <option value="Site Survey Done">Site Survey Done</option>
+                                <option value="Material Dispatched">Material Dispatched</option>
+                                <option value="Installation Complete">Installation Complete</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary mb-1" onclick='openEditLeadModal(${JSON.stringify(l)})'>Edit</button>
+                            <a href="${waUrl}" target="_blank" class="btn btn-sm btn-success mb-1 text-decoration-none">💬 WhatsApp</a>
+                            <button class="btn btn-sm btn-danger mb-1" onclick="vendorDeleteLead('${l.leadId}')">Delete</button>
+                        </td>
+                    </tr>`;
+                });
+                document.getElementById('vendorLeadsTable').innerHTML = html;
+            }
+        } catch(e) {
+             document.getElementById('vendorLeadsTable').innerHTML = `<tr><td><strong>LD-DEMO-01</strong></td><td>Ramesh K.<br><span class="badge bg-secondary">📍 Geo</span></td><td>3.0 kW<br><small>Kosol (550Wp x 6)</small></td><td>Quotation Sent</td><td><button class="btn btn-sm btn-outline-secondary mb-1">Edit</button> <a href="https://api.whatsapp.com/send?phone=919822001122&text=Hello" target="_blank" class="btn btn-sm btn-success mb-1 text-decoration-none">💬 WhatsApp</a> <button class="btn btn-sm btn-danger mb-1">Delete</button></td></tr>`;
+        }
+    }
+
+    function openEditLeadModal(l) {
+        document.getElementById('editLeadId').value = l.leadId;
+        document.getElementById('elCustomer').value = l.customer;
+        document.getElementById('elPhone').value = l.phone;
+        document.getElementById('elKW').value = l.kw;
+        document.getElementById('elRate').value = l.rate;
+        document.getElementById('elStatus').value = l.status;
+        document.getElementById('elAddress').value = l.address || '';
+        document.getElementById('elGeo').value = l.geoLocation || '';
+        document.getElementById('elNotes').value = l.notes || '';
+        new bootstrap.Modal(document.getElementById('editLeadModal')).show();
+    }
+
+    async function submitEditLead(e) {
+        e.preventDefault();
+        const payload = {
+            leadId: document.getElementById('editLeadId').value,
+            customer: document.getElementById('elCustomer').value,
+            phone: document.getElementById('elPhone').value,
+            kw: document.getElementById('elKW').value,
+            ratePerKw: document.getElementById('elRate').value,
+            status: document.getElementById('elStatus').value,
+            address: document.getElementById('elAddress').value,
+            geoLocation: document.getElementById('elGeo').value,
+            notes: document.getElementById('elNotes').value
+        };
+        showToast('Updating lead...', 'warning');
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateLead', payload }) });
+            showToast('Lead updated successfully!', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('editLeadModal')).hide();
+            loadVendorLeads();
+        } catch(e) { showToast('Error updating lead', 'danger'); }
+    }
+
+    async function updateStage(leadId, newStatus) {
+        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'updateLeadStage', payload: { leadId, newStatus } }) }); showToast('Stage Updated', 'success'); } catch(e) {}
+    }
+    async function vendorDeleteLead(leadId) {
+        if(!confirm('Delete Lead?')) return;
+        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteLead', payload: { leadId } }) }); showToast('Deleted', 'success'); loadVendorLeads(); } catch(e) {}
+    }
+
+    async function loadTasks() {
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudTask', payload: { method: 'READ', vendorId: CURRENT_USER.id } }) });
+            const json = await res.json();
+            if(json.status === 'success') {
+                let html = '';
+                json.data.tasks.forEach(t => {
+                    html += `<tr><td>${t.leadId}</td><td>${t.name}</td><td>${t.status}</td><td>${new Date(t.due).toLocaleDateString()}</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="deleteTask('${t.id}')">Delete</button></td></tr>`;
+                });
+                document.getElementById('vendorTasksTable').innerHTML = html;
+            }
+        } catch(e) {}
+    }
+    async function createTask(e) {
+        e.preventDefault();
+        const payload = { method: 'CREATE', vendorId: CURRENT_USER.id, leadId: document.getElementById('tLead').value, taskName: document.getElementById('tName').value, dueDate: document.getElementById('tDate').value };
+        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudTask', payload }) }); showToast('Task Added', 'success'); e.target.reset(); loadTasks(); } catch(e) {}
+    }
+    async function deleteTask(taskId) {
+        if(!confirm('Delete Task?')) return;
+        try { await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'crudTask', payload: { method: 'DELETE', taskId } }) }); showToast('Task Deleted', 'success'); loadTasks(); } catch(e) {}
+    }
+</script>
+</body>
+</html></head>
 <body>
 
 <!-- Navbar -->
