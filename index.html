@@ -23,8 +23,9 @@
         #aiChatWidget { position: fixed; bottom: 20px; right: 20px; z-index: 1050; }
         #chatBox { width: 360px; height: 480px; display: none; flex-direction: column; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
         
-        .carousel-item { height: 500px; background-size: cover; background-position: center; }
-        .carousel-caption { background: rgba(0, 0, 0, 0.65); padding: 30px; border-radius: 12px; }
+        .carousel-item { height: 520px; background-size: cover; background-position: center; position: relative; }
+        .carousel-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.7)); }
+        .carousel-caption { background: rgba(0, 0, 0, 0.6); padding: 35px; border-radius: 12px; z-index: 2; backdrop-filter: blur(4px); }
         
         .portal-switcher-btn { cursor: pointer; transition: all 0.3s ease; border: 2px solid #dee2e6; background-color: #f8f9fa; font-size: 0.9rem; }
         .portal-switcher-btn:hover { border-color: #f59e0b; background-color: #fffbeb; transform: translateY(-2px); }
@@ -68,37 +69,49 @@
 </div>
 
 <!-- ==========================================
-     WELCOME LANDING PAGE VIEW (Single Clean Instance)
+     WELCOME LANDING PAGE VIEW (Aesthetic Live-Stream Flow)
 =========================================== -->
 <div id="welcomeView" class="view-section active-view">
     
-    <!-- Carousel Slider -->
+    <!-- Aesthetic Hero Carousel matching services & captions -->
     <div id="heroCarousel" class="carousel slide carousel-fade shadow-sm" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1509391365360-e835f3774e6f?auto=format&fit=crop&w=1920&q=80')">
+            <!-- Slide 1: Solar EPC Management -->
+            <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1509391365360-e835f3774e6f?auto=format&fit=crop&w=1920&q=80')">
                 <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
                     <h1 class="display-4 fw-bold text-warning">Solar Stack Enterprise EPC</h1>
-                    <p class="lead text-light">Powered by SRD Sons Technologies and Enterprises. Complete Solar Lifecycle & Vendor Management.</p>
+                    <p class="lead text-light">Powered by SRD Sons Technologies and Enterprises. Complete rooftop solar workflow automation, BOM calculations, and vendor tracking.</p>
                     <button class="btn btn-warning btn-lg fw-bold text-dark mt-3 hover-scale" onclick="switchView('authView'); switchPortalMode('vendorSignup');">Get Started as Vendor</button>
                 </div>
             </div>
-            <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1920&q=80')">
+            <!-- Slide 2: Website & Mobile Development -->
+            <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1920&q=80')">
                 <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
-                    <h1 class="display-4 fw-bold text-warning">Smart Digital & IT Solutions</h1>
-                    <p class="lead text-light">Website Design, Mobile Applications, and Custom Web Engineering for Enterprises.</p>
-                    <a href="#servicesSection" class="btn btn-outline-light btn-lg mt-3 hover-scale">Explore Services</a>
+                    <h1 class="display-4 fw-bold text-warning">Website & Mobile Development</h1>
+                    <p class="lead text-light">High-performance responsive web portals and custom cross-platform applications engineered for modern business scale.</p>
+                    <a href="#servicesSection" class="btn btn-outline-light btn-lg mt-3 hover-scale">Explore All Services</a>
                 </div>
             </div>
-            <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1920&q=80')">
+            <!-- Slide 3: Digital Marketing & Media -->
+            <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1432821596592-e2c18b78144f?auto=format&fit=crop&w=1920&q=80')">
                 <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
-                    <h1 class="display-4 fw-bold text-warning">Automated Quotations & BOM</h1>
-                    <p class="lead text-light">Calculate rooftop sizing, generate professional PDFs, and track customer workflows instantly.</p>
-                    <a href="#contactSection" class="btn btn-warning btn-lg text-dark fw-bold mt-3 hover-scale">Contact Our Team</a>
+                    <h1 class="display-4 fw-bold text-warning">Digital Marketing & Media Collateral</h1>
+                    <p class="lead text-light">Dynamic promotional video reels, vector graphics design, and targeted regional marketing campaigns in Marathi & English.</p>
+                    <a href="#contactSection" class="btn btn-outline-light btn-lg mt-3 hover-scale">Connect With Us</a>
+                </div>
+            </div>
+            <!-- Slide 4: Trading & Procurement -->
+            <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1920&q=80')">
+                <div class="carousel-caption d-flex flex-column justify-content-center h-100 align-items-center">
+                    <h1 class="display-4 fw-bold text-warning">Solar Trading & Procurement</h1>
+                    <p class="lead text-light">Top-tier distribution of high-efficiency PERC/TOPCon modules, inverters, and BOS materials for sustainable energy infrastructures.</p>
+                    <a href="#contactSection" class="btn btn-warning btn-lg text-dark fw-bold mt-3 hover-scale">Request Procurement Quote</a>
                 </div>
             </div>
         </div>
@@ -110,7 +123,7 @@
     <div id="servicesSection" class="container py-5">
         <div class="text-center mb-5">
             <h2 class="fw-bold">Our Comprehensive Services</h2>
-            <p class="text-muted">SRD Sons Technologies and Enterprises delivers end-to-end digital and enterprise infrastructure.</p>
+            <p class="text-muted">SRD Sons Technologies and Enterprises delivers end-to-end digital and green energy infrastructure.</p>
         </div>
         <div class="row g-4" id="publicServicesGrid">
             <div class="col-md-4">
@@ -172,12 +185,12 @@
                 
                 <div class="mb-3"><strong>Main Office:</strong><br><span class="text-muted">At Bus Stand, Dhanora Gurav, Nandgaon Khandeshwar, Amravati, Maharashtra - 444701, India</span></div>
                 <div class="mb-3"><strong>Branch Office:</strong><br><span class="text-muted">Vijay Nagar, Gopal Nagar, Amravati, Maharashtra - 444607, India</span></div>
-                <div class="mb-3"><strong>Contact Number:</strong><br><span class="text-muted">+91 9356961915</span></div>
+                <div class="mb-3"><strong>Contact Number:</strong><br><span class="text-muted">+91 9403618841</span></div>
                 <div class="mb-3"><strong>Email ID:</strong><br><span class="text-muted">srdsons.info@gmail.com</span></div>
                 <div class="mb-3"><strong>Working Hours:</strong><br><span class="text-muted">Monday To Saturday: 09:00 AM to 06:00 PM</span></div>
                 
                 <!-- Native WhatsApp App Intent Link -->
-                <a href="whatsapp://send?phone=919356961915&text=Hello%20SRD%20Sons%20Tech,%20I%20want%20to%20inquire%20about%20Solar%20Stack%20and%20your%20services." class="btn btn-success fw-bold mt-2 hover-scale">
+                <a href="whatsapp://send?phone=919403618841&text=Hello%20SRD%20Sons%20Tech,%20I%20want%20to%20inquire%20about%20Solar%20Stack%20and%20your%20services." class="btn btn-success fw-bold mt-2 hover-scale">
                     💬 Chat Directly on WhatsApp
                 </a>
             </div>
@@ -268,11 +281,11 @@
                     <div id="paneAdminLogin" class="auth-pane">
                         <div class="alert alert-primary py-2 small shadow-sm mb-3">
                             <strong>Master Admin Portal:</strong> Full system access, vendor approvals, logo management, and global CRUD operations.<br>
-                            <em>Demo: admin@srdtech.com / admin123</em>
+                            <em>Credentials for testing: admin@srdtech.com / admin123</em>
                         </div>
                         <form onsubmit="handleLogin(event, 'admin')">
-                            <div class="mb-3"><label class="form-label fw-bold small">Admin Email</label><input type="email" id="adminEmail" class="form-control" value="admin@srdtech.com" required></div>
-                            <div class="mb-3"><label class="form-label fw-bold small">Password</label><input type="password" id="adminPass" class="form-control" value="admin123" required></div>
+                            <div class="mb-3"><label class="form-label fw-bold small">Admin Email</label><input type="email" id="adminEmail" class="form-control" placeholder="admin@srdtech.com" required></div>
+                            <div class="mb-3"><label class="form-label fw-bold small">Password</label><input type="password" id="adminPass" class="form-control" placeholder="Enter admin password" required></div>
                             <button type="submit" class="btn btn-primary w-100 fw-bold hover-scale py-2">Sign In as Master Admin</button>
                         </form>
                     </div>
@@ -280,11 +293,11 @@
                     <div id="paneVendorLogin" class="auth-pane d-none">
                         <div class="alert alert-warning py-2 small shadow-sm mb-3 text-dark">
                             <strong>Vendor Portal Login:</strong> Access your EPC pipeline and quotation tools. <em>Note: Newly signed up vendors can only login after Master Admin approval.</em><br>
-                            <em>Demo: vendor@demo.com / vendor123</em>
+                            <em>Credentials for testing: vendor@demo.com / vendor123</em>
                         </div>
                         <form onsubmit="handleLogin(event, 'vendor')">
-                            <div class="mb-3"><label class="form-label fw-bold small">Vendor Email</label><input type="email" id="vendorEmail" class="form-control" value="vendor@demo.com" required></div>
-                            <div class="mb-3"><label class="form-label fw-bold small">Password</label><input type="password" id="vendorPass" class="form-control" value="vendor123" required></div>
+                            <div class="mb-3"><label class="form-label fw-bold small">Vendor Email</label><input type="email" id="vendorEmail" class="form-control" placeholder="vendor@demo.com" required></div>
+                            <div class="mb-3"><label class="form-label fw-bold small">Password</label><input type="password" id="vendorPass" class="form-control" placeholder="Enter vendor password" required></div>
                             <button type="submit" class="btn btn-warning w-100 fw-bold text-dark hover-scale py-2">Sign In to Vendor Workspace</button>
                         </form>
                     </div>
@@ -625,7 +638,7 @@
                 <h6 class="text-warning fw-bold mb-3">Offices & Contact</h6>
                 <p class="small text-white-50 mb-1"><strong>Main Office:</strong> Bus Stand, Dhanora Gurav, Nandgaon Khandeshwar, Amravati, MH - 444701</p>
                 <p class="small text-white-50 mb-1"><strong>Branch Office:</strong> Vijay Nagar, Gopal Nagar, Amravati, MH - 444607</p>
-                <p class="small text-white-50 mb-1">Phone: +91 9356961915</p>
+                <p class="small text-white-50 mb-1">Phone: +91 9403618841</p>
                 <p class="small text-white-50 mb-1">Email: srdsons.info@gmail.com</p>
                 <p class="small text-white-50">Hours: Mon-Sat (09:00 AM - 06:00 PM)</p>
             </div>
