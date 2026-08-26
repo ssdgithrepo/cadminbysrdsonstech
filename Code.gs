@@ -34,7 +34,6 @@ function doPost(e) {
     else if (action === 'generateQuotation') result = generateQuotation(data.payload);
     else if (action === 'updateLead') result = updateLead(data.payload);
     else if (action === 'deleteLead') result = deleteLead(data.payload);
-    else if (action === 'acceptQuotationAndGenerateDocs') result = acceptQuotationAndGenerateDocs(data.payload);
     else if (action === 'updateLeadStage') result = updateLeadStage(data.payload);
     
     // Vendor Tasks CRUD
@@ -52,9 +51,10 @@ function loginUser(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Vendors');
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
+    // Column 2 is Email (index 2), Column 4 is Password (index 4)
     if(data[i][2] === payload.email && data[i][4] === payload.password) {
       if(data[i][6] !== 'Approved' && data[i][0] !== 'ADMIN') {
-        return { success: false, message: 'Account is pending Master Admin approval. You cannot log in yet.' };
+        return { success: false, message: 'Account is pending Master Admin approval in Google Sheets.' };
       }
       return { 
         success: true, 
@@ -65,7 +65,7 @@ function loginUser(payload) {
       };
     }
   }
-  return { success: false, message: 'Invalid credentials or unregistered email.' };
+  return { success: false, message: 'Invalid credentials or unregistered email in Google Sheets.' };
 }
 
 function vendorSignUp(payload) {
@@ -73,19 +73,19 @@ function vendorSignUp(payload) {
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
     if(data[i][2] === payload.email) {
-      return { success: false, message: 'Email already registered. Please login.' };
+      return { success: false, message: 'Email already registered in system.' };
     }
   }
   const vendorId = 'VND' + new Date().getTime();
   sheet.appendRow([vendorId, payload.name, payload.email, payload.phone, payload.password, 'Active', 'Pending', 'Free Tier', '', '', payload.address, '', '', '']);
-  return { success: true, message: 'Sign-up successful! Your vendor account is now pending Master Admin approval.' };
+  return { success: true, message: 'Sign-up successful! Pending Master Admin sheet approval.' };
 }
 
 function adminCreateVendor(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Vendors');
   const vendorId = 'VND' + new Date().getTime();
   sheet.appendRow([vendorId, payload.name, payload.email, payload.phone, payload.password, 'Active', 'Approved', payload.plan || 'Enterprise', '', '', payload.address, '', '', '']);
-  return { success: true, message: 'Vendor successfully created and approved by Master Admin.' };
+  return { success: true, message: 'Vendor successfully created and approved in Google Sheets.' };
 }
 
 function adminUpdateVendor(payload) {
@@ -98,7 +98,7 @@ function adminUpdateVendor(payload) {
       sheet.getRange(i+1, 4).setValue(payload.phone);
       sheet.getRange(i+1, 11).setValue(payload.address);
       if(payload.password) sheet.getRange(i+1, 5).setValue(payload.password);
-      return { success: true, message: 'Vendor details updated successfully.' };
+      return { success: true, message: 'Vendor details updated successfully in Google Sheets.' };
     }
   }
   return { success: false, message: 'Vendor not found.' };
@@ -108,7 +108,7 @@ function saveInquiry(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Inquiries') || SpreadsheetApp.openById(SHEET_ID).insertSheet('Inquiries');
   if(sheet.getLastRow() === 0) sheet.appendRow(['Timestamp', 'Org_Name', 'Name', 'Phone', 'Address', 'Specific_Service', 'Requirements', 'Source']);
   sheet.appendRow([new Date(), payload.orgName || 'N/A', payload.name, payload.phone, payload.address || 'N/A', payload.service, payload.requirements, payload.source || 'AI Chat']);
-  return { success: true, message: 'Inquiry saved successfully.' };
+  return { success: true, message: 'Inquiry saved to Google Sheets successfully.' };
 }
 
 function getAllInquiriesAdmin() {
@@ -126,7 +126,7 @@ function adminDeleteInquiry(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Inquiries');
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
-    if(i === payload.index) { sheet.deleteRow(i+1); return { success: true, message: 'Inquiry deleted.' }; }
+    if(i === payload.index) { sheet.deleteRow(i+1); return { success: true, message: 'Inquiry deleted from sheet.' }; }
   }
   return { success: false, message: 'Inquiry not found.' };
 }
@@ -161,7 +161,7 @@ function approveVendor(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Vendors');
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
-    if(data[i][0] === payload.vendorId) { sheet.getRange(i+1, 7).setValue('Approved'); return { success: true, message: 'Vendor approved successfully. They can now log in.' }; }
+    if(data[i][0] === payload.vendorId) { sheet.getRange(i+1, 7).setValue('Approved'); return { success: true, message: 'Vendor approved in Google Sheets.' }; }
   }
   return { success: false, message: 'Not found.' };
 }
@@ -170,7 +170,7 @@ function deleteVendor(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Vendors');
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
-    if(data[i][0] === payload.vendorId) { sheet.deleteRow(i + 1); return { success: true, message: 'Deleted.' }; }
+    if(data[i][0] === payload.vendorId) { sheet.deleteRow(i + 1); return { success: true, message: 'Vendor deleted from sheet.' }; }
   }
 }
 
@@ -180,7 +180,7 @@ function updateVendorLogo(payload) {
   for(let i=1; i<data.length; i++) {
     if(data[i][0] === payload.vendorId) { 
       sheet.getRange(i+1, 12).setValue(payload.logoUrl);
-      return { success: true, message: 'Vendor logo updated successfully.' }; 
+      return { success: true, message: 'Vendor logo updated in Google Sheets.' }; 
     }
   }
   return { success: false, message: 'Vendor not found.' };
@@ -197,7 +197,7 @@ function crudPlan(payload) {
     return { success: true, plans: plans };
   } else if(payload.method === 'CREATE') {
     sheet.appendRow(['PLN'+new Date().getTime(), payload.name, payload.price, payload.features]);
-    return { success: true, message: 'Plan created.' };
+    return { success: true, message: 'Plan created in sheet.' };
   } else if(payload.method === 'UPDATE') {
     const data = sheet.getDataRange().getValues();
     for(let i=1; i<data.length; i++) {
@@ -205,13 +205,13 @@ function crudPlan(payload) {
         sheet.getRange(i+1, 2).setValue(payload.name);
         sheet.getRange(i+1, 3).setValue(payload.price);
         sheet.getRange(i+1, 4).setValue(payload.features);
-        return { success: true, message: 'Plan updated.' };
+        return { success: true, message: 'Plan updated in sheet.' };
       }
     }
   } else if(payload.method === 'DELETE') {
     const data = sheet.getDataRange().getValues();
     for(let i=1; i<data.length; i++) {
-      if(data[i][0] === payload.planId) { sheet.deleteRow(i+1); return { success: true, message: 'Plan deleted.' }; }
+      if(data[i][0] === payload.planId) { sheet.deleteRow(i+1); return { success: true, message: 'Plan deleted from sheet.' }; }
     }
   }
 }
@@ -231,7 +231,7 @@ function adminDeleteLead(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Leads');
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
-    if(data[i][0] === payload.leadId) { sheet.deleteRow(i+1); return { success: true, message: 'Lead deleted by admin.' }; }
+    if(data[i][0] === payload.leadId) { sheet.deleteRow(i+1); return { success: true, message: 'Lead deleted by admin from sheet.' }; }
   }
 }
 
@@ -278,7 +278,7 @@ function generateQuotation(payload) {
     payload.kw, payload.ratePerKw, payload.moduleBrand, payload.moduleWp, payload.moduleQty, payload.inverterBrand, 
     totalAmt, new Date().toISOString().split('T')[0], payload.address, payload.geoLocation
   ]);
-  return { success: true, leadId: leadId, message: 'Quotation generated.' };
+  return { success: true, leadId: leadId, message: 'Quotation generated and saved to Google Sheets.' };
 }
 
 function updateLead(payload) {
@@ -295,25 +295,17 @@ function updateLead(payload) {
       sheet.getRange(i+1, 14).setValue(parseFloat(payload.kw) * parseFloat(payload.ratePerKw));
       sheet.getRange(i+1, 16).setValue(payload.address);
       sheet.getRange(i+1, 17).setValue(payload.geoLocation);
-      return { success: true, message: 'Lead updated successfully.' };
+      return { success: true, message: 'Lead updated successfully in sheet.' };
     }
   }
   return { success: false, message: 'Lead not found.' };
-}
-
-function acceptQuotationAndGenerateDocs(payload) {
-  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Leads');
-  const data = sheet.getDataRange().getValues();
-  for(let i=1; i<data.length; i++) {
-    if(data[i][0] === payload.leadId) { sheet.getRange(i+1, 5).setValue('Quotation Accepted'); return { success: true, message: 'Accepted.' }; }
-  }
 }
 
 function updateLeadStage(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Leads');
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
-    if(data[i][0] === payload.leadId) { sheet.getRange(i+1, 5).setValue(payload.newStatus); return { success: true, message: 'Updated.' }; }
+    if(data[i][0] === payload.leadId) { sheet.getRange(i+1, 5).setValue(payload.newStatus); return { success: true, message: 'Lead stage updated in sheet.' }; }
   }
 }
 
@@ -321,7 +313,7 @@ function deleteLead(payload) {
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Leads');
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
-    if(data[i][0] === payload.leadId) { sheet.deleteRow(i+1); return { success: true, message: 'Deleted.' }; }
+    if(data[i][0] === payload.leadId) { sheet.deleteRow(i+1); return { success: true, message: 'Lead deleted from sheet.' }; }
   }
 }
 
@@ -331,7 +323,7 @@ function handleTasks(payload) {
   
   if(payload.method === 'CREATE') {
     sheet.appendRow(['TSK'+new Date().getTime(), payload.vendorId, payload.leadId, payload.taskName, 'Pending', payload.dueDate]);
-    return { success: true, message: 'Task added.' };
+    return { success: true, message: 'Task added to sheet.' };
   } else if (payload.method === 'READ') {
     const data = sheet.getDataRange().getValues();
     let tasks = [];
@@ -346,13 +338,13 @@ function handleTasks(payload) {
         sheet.getRange(i+1, 4).setValue(payload.taskName);
         sheet.getRange(i+1, 5).setValue(payload.status);
         sheet.getRange(i+1, 6).setValue(payload.dueDate);
-        return { success: true, message: 'Task updated.' };
+        return { success: true, message: 'Task updated in sheet.' };
       }
     }
   } else if (payload.method === 'DELETE') {
     const data = sheet.getDataRange().getValues();
     for(let i=1; i<data.length; i++) {
-      if(data[i][0] === payload.taskId) { sheet.deleteRow(i+1); return { success: true, message: 'Task deleted.' }; }
+      if(data[i][0] === payload.taskId) { sheet.deleteRow(i+1); return { success: true, message: 'Task deleted from sheet.' }; }
     }
   }
 }
